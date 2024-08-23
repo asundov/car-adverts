@@ -1,0 +1,89 @@
+paths:
+  get-users:
+    get:
+      tags:
+        - auth
+      operationId: getUsers
+      summary: get login users for test purposes
+      responses:
+        200:
+          description: list of users for login
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AuthenticationUser'
+  authenticate:
+    post:
+      tags:
+        - auth
+      operationId: authenticate
+      summary: user authenticate call for test purposes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthenticationRequest'
+      responses:
+        200:
+          description: successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationResponse'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: integer
+          format: int32
+        detail:
+          type: string
+        instance:
+          type: string
+    AuthenticationRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    AuthenticationUser:
+      type: object
+      properties:
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+    AuthenticationResponse:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        token:
+          type: string
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        pin:
+          type: string
+        expiresAt:
+          type: string
+          format: date-time
+        roles:
+          type: array
+          items:
+            type: string

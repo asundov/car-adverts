@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: car-adverts
+  #database
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: none
+        format_sql: true
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:1000/car-adverts
+    username: car-adverts
+    password: caradverts
+  #spring.jdbc.template.fetch-size=50000
+  #spring.jdbc.template.max-rows=1000000
+  sql.init.mode: always
+
+  servlet:
+    multipart:
+      max-file-size: 512MB
+      max-request-size: 512MB
+
+web:
+  cors:
+    allow-credentials: true
+    allowed-origins: http://localhost:4200
+    # allowed-methods: GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD
+    allowed-methods: GET, POST, OPTIONS, HEAD
+    max-age: 3600
+    allowed-headers: Requester-Type, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization
+    exposed-headers: X-Get-Header
