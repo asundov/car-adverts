@@ -159,7 +159,7 @@ components:
       type: object
       description: Standard error response
       properties:
-        messages:
+        validation_errors:
           type: array
           items:
             type: string
