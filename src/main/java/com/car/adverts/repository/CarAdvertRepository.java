@@ -7,8 +7,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Map;
 
@@ -40,14 +43,21 @@ public class CarAdvertRepository {
 
     public Long addCarAdvert(CarAdvertRequest carAdvertRequest) {
 
-        return jdbcTemplate.queryForObject(INSERT_CAR_ADVERT, Long.class,
-                carAdvertRequest.getTitle(),
-                carAdvertRequest.getFuelType(),
-                carAdvertRequest.getPrice(),
-                carAdvertRequest.getIsNew(),
-                carAdvertRequest.getMileage(),
-                carAdvertRequest.getFirstRegistration(),
-                CarAdvertsConstants.STATUS_ACTIVE);
+        KeyHolder keyHolder = new GeneratedKeyHolder();  // To hold the generated key (ID)
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(INSERT_CAR_ADVERT, new String[]{"id"}); // Specify the column for the generated key
+            ps.setString(1, carAdvertRequest.getTitle());
+            ps.setString(2, carAdvertRequest.getFuelType());
+            ps.setInt(3, carAdvertRequest.getPrice());
+            ps.setBoolean(4, carAdvertRequest.getIsNew());
+            ps.setInt(5, carAdvertRequest.getMileage());
+            ps.setDate(6, java.sql.Date.valueOf(carAdvertRequest.getFirstRegistration()));
+            ps.setInt(7, CarAdvertsConstants.STATUS_ACTIVE);
+            return ps;
+        }, keyHolder);
+
+        return keyHolder.getKey() != null ? keyHolder.getKey().longValue() : null;
 
     }
 
@@ -92,11 +102,11 @@ public class CarAdvertRepository {
             "(title, fuel_type, price, is_new, mileage, first_registration, active) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_CAR_ADVERT = "UPDATE core.car_advert " +
-            "SET title = ?, fuel_type = ?, price = ?, is_new = ?, mileage = ?, first_registration = ?" +
+            "SET title = ?, fuel_type = ?, price = ?, is_new = ?, mileage = ?, first_registration = ? " +
             "WHERE id = ? AND active = 1";
 
     private static final String DELETE_CAR_ADVERT = "UPDATE core.car_advert " +
-            "SET active = ?" +
+            "SET active = ? " +
             "WHERE id = ? AND active = 1";
 
 //    DELETE FROM core.car_advert

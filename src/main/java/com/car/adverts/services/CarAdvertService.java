@@ -1,5 +1,6 @@
 package com.car.adverts.services;
 
+import com.car.adverts.config.exception.CarAdvertsException;
 import com.car.adverts.dto.CarAdvertMapper;
 import com.car.adverts.repository.CarAdvertRepository;
 import hr.ericsson.eb.car.adverts.api.model.CarAdvertRequest;
@@ -42,6 +43,8 @@ public class CarAdvertService {
     public CarAdvertResponse addCarAdvert(CarAdvertRequest carAdvertRequest) {
 
         Long id = carAdvertRepository.addCarAdvert(carAdvertRequest);
+        if (id == null) throw new CarAdvertsException();
+
         return getCarAdvert(id);
     }
 
