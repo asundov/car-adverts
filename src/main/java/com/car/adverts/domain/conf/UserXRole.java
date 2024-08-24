@@ -1,6 +1,10 @@
-package com.car.adverts.domain;
+package com.car.adverts.domain.conf;
 
-import lombok.*;
+import com.car.adverts.domain.AbstractDomainCore;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Data
@@ -9,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class UserXRole extends AbstractDomainCore {
-    
+
 
     private UserRole userRole;
 

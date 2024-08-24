@@ -6,17 +6,122 @@
 
 /* Create Tables */
 
-CREATE TABLE core.accommodation_unit_category
+CREATE TABLE conf."user"
 (
-	id bigint NOT NULL   DEFAULT NEXTVAL(('core."accommodation_unit_category_id_seq"'::text)::regclass),	-- Jedinstveni identifikator.
-	uname varchar NOT NULL,	-- Naziv
-	sequence integer NULL   DEFAULT 0,	-- Poredak
-	status integer NOT NULL   DEFAULT 1,	-- Aktivan zapis: 1, ostalo: 0
+	id bigint NOT NULL   DEFAULT NEXTVAL(('conf."user_id_seq"'::text)::regclass),	-- Jedinstveni identifikator.
+	first_name varchar NULL,	-- Ime
+	last_name varchar NOT NULL,	-- Prezime
+	username varchar NOT NULL,	-- korisničko ime
+	admin boolean NULL,	-- da li je korisnik admin sustava
+	"e-mail" varchar NULL,
+	"e-mail-verified" boolean NULL   DEFAULT false,	-- da li je email verificiran
+	description varchar NULL,	-- opis
+	status integer NOT NULL   DEFAULT 1,	-- 0 - neaktivan, 1 - aktivan
 	active integer NOT NULL   DEFAULT 1,	-- Aktivan zapis: 1, ostalo: 0
-	translation jsonb NULL,	-- Prijevodi spremljeni u JSON formatu
 	created_by bigint NULL,	-- Korisnik koji je kreirao zapis.
-	created_date timestamp with time zone NOT NULL   DEFAULT now(),	-- Dan i vrijeme kad je kreiran zapis
+	created_date timestamp with time zone NULL   DEFAULT now(),	-- Dan i vrijeme kad je kreiran zapis
 	modified_by bigint NULL,	-- Korisnik koji je ažurirao zapis
-	modified_date timestamp with time zone NOT NULL   DEFAULT now()	-- Dan i vrijeme kad je ažuriran zapis
+	modified_date timestamp with time zone NULL   DEFAULT now()	-- Dan i vrijeme kad je ažuriran zapis
+)
+;
+
+CREATE TABLE conf.user_function
+(
+	id bigint NOT NULL   DEFAULT NEXTVAL(('conf."user_function_id_seq"'::text)::regclass),	-- Jedinstveni identifikator.
+	ucode varchar NOT NULL,	-- Šifra funkcije
+	uname varchar NOT NULL,	-- Naziv
+	status integer NULL   DEFAULT 1,	-- Aktivan zapis: 1, ostalo: 0
+	active integer NULL   DEFAULT 1,	-- Aktivan zapis: 1, ostalo: 0
+	created_by bigint NULL,	-- Korisnik koji je kreirao zapis.
+	created_date timestamp with time zone NULL   DEFAULT now(),	-- Dan i vrijeme kad je kreiran zapis
+	modified_by bigint NULL,	-- Korisnik koji je ažurirao zapis
+	modified_date timestamp with time zone NULL   DEFAULT now()	-- Dan i vrijeme kad je ažuriran zapis
+)
+;
+
+CREATE TABLE conf.user_role
+(
+	id bigint NOT NULL   DEFAULT NEXTVAL(('conf."user_role_id_seq"'::text)::regclass),	-- Jedinstveni identifikator.
+	ucode varchar NOT NULL,	-- Šifra role
+	uname varchar NOT NULL,	-- Naziv
+	active integer NULL   DEFAULT 1,	-- Aktivan zapis: 1, ostalo: 0
+	created_by bigint NULL,	-- Korisnik koji je kreirao zapis.
+	created_date timestamp with time zone NULL   DEFAULT now(),	-- Dan i vrijeme kad je kreiran zapis
+	modified_by bigint NULL,	-- Korisnik koji je ažurirao zapis
+	modified_date timestamp with time zone NULL   DEFAULT now()	-- Dan i vrijeme kad je ažuriran zapis
+)
+;
+
+CREATE TABLE conf.user_role_x_function
+(
+	id bigint NOT NULL   DEFAULT NEXTVAL(('conf."user_role_x_function_id_seq"'::text)::regclass),	-- Jedinstveni identifikator.
+	role_id bigint NOT NULL,	-- Veza na conf.user_role
+	function_id bigint NULL,	-- Veza na core.user_function
+	active integer NOT NULL   DEFAULT 1,	-- Aktivan zapis: 1, ostalo: 0
+	created_by bigint NULL,	-- Korisnik koji je kreirao zapis.
+	created_date timestamp without time zone NULL   DEFAULT now(),	-- Dan i vrijeme kad je kreiran zapis
+	modified_by bigint NULL,	-- Korisnik koji je ažurirao zapis
+	modified_date timestamp without time zone NULL   DEFAULT now()	-- Dan i vrijeme kad je ažuriran zapis
+)
+;
+
+CREATE TABLE conf.user_session
+(
+	id bigint NOT NULL   DEFAULT NEXTVAL(('conf."user_session_id_seq"'::text)::regclass),	-- Jedinstveni identifikator
+	user_id bigint NOT NULL,	-- Veza na core.user
+	login_date timestamp without time zone NULL   DEFAULT now(),	-- Datum prijave korisnika
+	logout_date timestamp without time zone NULL,	-- Datum odjave korisnika
+	ip_address varchar NULL,	-- ip adresa prijave
+	refresh_token varchar NOT NULL,	-- autentikacijski token
+	refresh_token_creation_date timestamp without time zone NULL,	-- Datum kreiranja autentikacijskog tokena
+	refresh_token_expiration_date timestamp without time zone NULL,	-- Datum isteka autentikacijskog tokena
+	status integer NULL   DEFAULT 1,	-- Aktivan zapis: 1, ostalo: 0
+	created_by bigint NULL,	-- Korisnik koji je kreirao zapis
+	created_date timestamp without time zone NULL   DEFAULT now(),	-- Dan i vrijeme kad je kreiran zapis
+	modified_by bigint NULL,	-- Korisnik koji je ažurirao zapis
+	modified_date timestamp without time zone NULL   DEFAULT now()	-- Dan i vrijeme kad je ažuriran zapis
+)
+;
+
+CREATE TABLE conf.user_x_function
+(
+	id bigint NOT NULL   DEFAULT NEXTVAL(('conf."user_x_function_id_seq"'::text)::regclass),	-- Jedinstveni identifikator.
+	user_id bigint NOT NULL,	-- Veza na core.user
+	function_id bigint NULL,	-- Veza na core.user_function
+	active integer NOT NULL   DEFAULT 1,	-- Aktivan zapis: 1, ostalo: 0
+	created_by bigint NULL,	-- Korisnik koji je kreirao zapis.
+	created_date timestamp without time zone NULL   DEFAULT now(),	-- Dan i vrijeme kad je kreiran zapis
+	modified_by bigint NULL,	-- Korisnik koji je ažurirao zapis
+	modified_date timestamp without time zone NULL   DEFAULT now()	-- Dan i vrijeme kad je ažuriran zapis
+)
+;
+
+CREATE TABLE conf.user_x_role
+(
+	id bigint NOT NULL   DEFAULT NEXTVAL(('conf."user_x_role_id_seq"'::text)::regclass),	-- Jedinstveni identifikator.
+	user_id bigint NOT NULL,	-- Veza na core.user
+	role_id bigint NULL,	-- Veza na core.user_function
+	active integer NOT NULL   DEFAULT 1,	-- Aktivan zapis: 1, ostalo: 0
+	created_by bigint NULL,	-- Korisnik koji je kreirao zapis.
+	created_date timestamp without time zone NULL   DEFAULT now(),	-- Dan i vrijeme kad je kreiran zapis
+	modified_by bigint NULL,	-- Korisnik koji je ažurirao zapis
+	modified_date timestamp without time zone NULL   DEFAULT now()	-- Dan i vrijeme kad je ažuriran zapis
+)
+;
+
+CREATE TABLE core.car_advert
+(
+	id bigint NOT NULL   DEFAULT NEXTVAL(('core."car_advert_id_seq"'::text)::regclass),	-- Jedinstveni identifikator.
+	title varchar NOT NULL,	-- Naziv
+	fuel_type varchar,	-- Poredak
+	price integer,	-- Aktivan zapis: 1, ostalo: 0
+	is_new boolean DEFAULT FALSE,
+	mileage integer,
+	first_registration date NOT NULL   DEFAULT now(),
+	active integer NOT NULL   DEFAULT 1,	-- Aktivan zapis: 1, ostalo: 0
+	created_by bigint NULL,	-- Korisnik koji je kreirao zapis.
+	created_date timestamp NOT NULL   DEFAULT now(),	-- Dan i vrijeme kad je kreiran zapis
+	modified_by bigint NULL,	-- Korisnik koji je ažurirao zapis
+	modified_date timestamp NOT NULL   DEFAULT now()	-- Dan i vrijeme kad je ažuriran zapis
 )
 ;

@@ -13,14 +13,6 @@ public class WebConfigProperties {
 
     private Cors cors;
 
-    // public WebConfigProperties(Cors cors) {
-//        this.cors = cors;
-//    }
-
-    //public Cors getCors() {
-//        return cors;
-//    }
-
     @Getter
     @Setter
     public static class Cors {
@@ -35,34 +27,5 @@ public class WebConfigProperties {
         private long maxAge;
 
         private boolean allowCredentials;
-
-//        public Cors(String[] allowedOrigins, String[] allowedMethods, long maxAge,
-//                     String[] allowedHeaders, String[] exposedHeaders) {
-//            this.allowedOrigins = allowedOrigins;
-//            this.allowedMethods = allowedMethods;
-//            this.maxAge = maxAge;
-//            this.allowedHeaders = allowedHeaders;
-//            this.exposedHeaders = exposedHeaders;
-//        }
-
-//        public String[] getAllowedOrigins() {
-//            return allowedOrigins;
-//        }
-//
-//        public String[] getAllowedMethods() {
-//            return allowedMethods;
-//        }
-//
-//        public long getMaxAge() {
-//            return maxAge;
-//        }
-//
-//        public String[] getAllowedHeaders() {
-//            return allowedHeaders;
-//        }
-//
-//        public String[] getExposedHeaders() {
-//            return exposedHeaders;
-//        }
     }
 }

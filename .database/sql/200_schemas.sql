@@ -1,1 +1,2 @@
 CREATE SCHEMA core;
+CREATE SCHEMA conf;

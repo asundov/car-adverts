@@ -14,6 +14,8 @@ spring:
     username: car-adverts
     password: caradverts
   sql.init.mode: always
+  jackson:
+    default-property-inclusion: NON_NULL
 
   servlet:
     multipart:
@@ -24,7 +26,8 @@ web:
   cors:
     allow-credentials: true
     allowed-origins: http://localhost:4200
-    allowed-methods: GET, POST, OPTIONS, HEAD
+    allowed-methods: GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD
     max-age: 3600
     allowed-headers: Requester-Type, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization
     exposed-headers: X-Get-Header
+

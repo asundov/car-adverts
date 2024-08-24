@@ -4,7 +4,6 @@ info:
   title: 'car-adverts codebook'
   description: Some description
 paths:
-
   #################
   # Authentication
   #################
@@ -15,6 +14,15 @@ paths:
   /authentication/auth/authenticate:
     $ref: './authentication.yaml#/paths/authenticate'
 
+  #################
+  # CarAdverts
+  #################
+
+  /car/adverts:
+    $ref: './car-adverts.yaml#/paths/car-adverts'
+
+  /car/adverts/:id:
+    $ref: './car-adverts.yaml#/paths/car-advert'
 
 components:
   schemas:

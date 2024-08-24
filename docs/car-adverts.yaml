@@ -1,0 +1,166 @@
+paths:
+  car-adverts:
+    get:
+      tags:
+        - car-adverts
+      operationId: getCarAdverts
+      summary: get car adverts where user have access
+      parameters:
+        - in: query
+          name: sortby
+          schema:
+            type: string
+          description: parameter sortby
+      responses:
+        200:
+          description: Return list of car adverts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarAdvertResponse'
+    post:
+      tags:
+        - car-adverts
+      operationId: addCarAdvert
+      summary: add car advert
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarAdvertRequest'
+      responses:
+        '201':
+          description: Car advert added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarAdvertResponse'
+        '400':
+          description: This is returned if json is invalid or cannot be parsed
+        '422':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  car-advert:
+    get:
+      tags:
+        - car-adverts
+      operationId: getCarAdvert
+      summary: get car advert with id where user have access
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: integer
+            format: int64
+          description: parameter car advert id
+      responses:
+        '200':
+          description: Return car advert
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarAdvertResponse'
+        '404':
+          description: No car advert with given id was found
+    put:
+      tags:
+        - car-adverts
+      operationId: updateCarAdvert
+      summary: update car advert
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: integer
+            format: int64
+          description: parameter car advert id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CarAdvertRequest'
+      responses:
+        '200':
+          description: Return updated car advert
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CarAdvertResponse'
+        '400':
+          description: This is returned if json is invalid or cannot be parsed
+        '404':
+          description: This is returned if a car advert with given id is not found
+        '422':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - car-adverts
+      operationId: deleteCarAdvert
+      summary: delete car advert
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: integer
+            format: int64
+          description: parameter car advert id
+      responses:
+        '204':
+          description: Car advert successfully deleted
+        '404':
+          description: This is returned if a car advert with given id is not found
+
+components:
+  schemas:
+    CarAdvertRequest:
+      title: CarAdvertRequest
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        fuelType:
+          type: string
+        price:
+          type: integer
+        isNew:
+          type: boolean
+        mileage:
+          type: integer
+        firstRegistration:
+          type: string
+          format: date
+          example: 2014-05-05
+
+    CarAdvertResponse:
+      title: CarAdvertResponse
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/CarAdvertRequest'
+
+    ErrorResponse:
+      type: object
+      description: Standard error response
+      properties:
+        messages:
+          type: array
+          items:
+            type: string
+
+
+
