@@ -129,6 +129,9 @@ components:
       title: CarAdvertRequest
       type: object
       properties:
+        id:
+          type: integer
+          format: int64
         title:
           type: string
         fuelType:
@@ -149,11 +152,6 @@ components:
       title: CarAdvertResponse
       allOf:
         - $ref: '#/components/schemas/CarAdvertRequest'
-        - type: object
-          properties:
-            id:
-              type: integer
-              format: int64
 
     ErrorResponse:
       type: object

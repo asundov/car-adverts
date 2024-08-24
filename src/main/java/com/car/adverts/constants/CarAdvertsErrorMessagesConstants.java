@@ -12,4 +12,9 @@ public class CarAdvertsErrorMessagesConstants {
     public static final String USER_SESSION_EXPIRED_ERROR = "error.user_session_expired_error";
     public static final String UNAUTHORIZED_ACCESS = "error.unauthorized_access_error";
     public static final String REQUEST_NULL = "error.request_null_error";
+
+    public static final String PRICE_NOT_NEGATIVE_NUMBER_ERROR = "Price cannot be negative";
+    public static final String ID_POSITIVE_NUMBER_ERROR = "Id must be a positive number";
+    public static final String ID_NOT_EQUAL_ERROR = "Path Id must be the same as body Id";
+
 }

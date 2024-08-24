@@ -3,6 +3,7 @@ package com.car.adverts.services;
 import com.car.adverts.config.exception.CarAdvertsException;
 import com.car.adverts.dto.CarAdvertMapper;
 import com.car.adverts.repository.CarAdvertRepository;
+import com.car.adverts.validators.CarAdvertValidator;
 import hr.ericsson.eb.car.adverts.api.model.CarAdvertRequest;
 import hr.ericsson.eb.car.adverts.api.model.CarAdvertResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 public class CarAdvertService {
 
     private final CarAdvertRepository carAdvertRepository;
+    private final CarAdvertValidator carAdvertValidator;
 
     public List<CarAdvertResponse> getCarAdverts(String sortby) {
 
@@ -41,6 +43,7 @@ public class CarAdvertService {
     }
 
     public CarAdvertResponse addCarAdvert(CarAdvertRequest carAdvertRequest) {
+        carAdvertValidator.validateCarAdvertRequest(carAdvertRequest, null, false);
 
         Long id = carAdvertRepository.addCarAdvert(carAdvertRequest);
         if (id == null) throw new CarAdvertsException();
@@ -50,6 +53,7 @@ public class CarAdvertService {
 
 
     public CarAdvertResponse updateCarAdvert(Long id, CarAdvertRequest carAdvertRequest) {
+        carAdvertValidator.validateCarAdvertRequest(carAdvertRequest, id, true);
         carAdvertRepository.updateCarAdvert(id, carAdvertRequest);
 
         return getCarAdvert(id);
