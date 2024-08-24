@@ -21,7 +21,7 @@ paths:
   /car/adverts:
     $ref: './car-adverts.yaml#/paths/car-adverts'
 
-  /car/adverts/:id:
+  /car/adverts/{id}:
     $ref: './car-adverts.yaml#/paths/car-advert'
 
 components:

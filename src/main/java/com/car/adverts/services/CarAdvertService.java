@@ -27,27 +27,32 @@ public class CarAdvertService {
                 .map(CarAdvertMapper::mapRowToCarAdvertResponse)
                 .collect(Collectors.toList());
 
+        log.info("Car adverts returned successfully. Number of returned adverts: {}", carAdvertResponses.size());
+
         return carAdvertResponses;
     }
 
     public CarAdvertResponse getCarAdvert(Long id) {
 
+        Map<String, Object> row = carAdvertRepository.getCarAdvert(id);
 
-        return CarAdvertResponse.builder().build();
+        return CarAdvertMapper.mapRowToCarAdvertResponse(row);
     }
 
     public CarAdvertResponse addCarAdvert(CarAdvertRequest carAdvertRequest) {
 
-        return CarAdvertResponse.builder().build();
+        Long id = carAdvertRepository.addCarAdvert(carAdvertRequest);
+        return getCarAdvert(id);
     }
 
 
     public CarAdvertResponse updateCarAdvert(Long id, CarAdvertRequest carAdvertRequest) {
+        carAdvertRepository.updateCarAdvert(id, carAdvertRequest);
 
-        return CarAdvertResponse.builder().build();
+        return getCarAdvert(id);
     }
 
     public void deleteCarAdvert(Long id) {
-
+        carAdvertRepository.deleteCarAdvert(id);
     }
 }
