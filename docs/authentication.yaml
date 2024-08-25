@@ -32,6 +32,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuthenticationResponse'
+
+  refresh-token:
+    post:
+      tags:
+        - auth
+      operationId: refreshToken
+      summary: refresh token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefreshRequest'
+      responses:
+        200:
+          description: successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefreshResponse'
+
+  logout:
+    post:
+      tags:
+        - auth
+      operationId: logout
+      summary: user logout call for test purposes
+      responses:
+        200:
+          description: successful logout
+          content:
+
 components:
   schemas:
     ErrorResponse:
@@ -72,6 +103,8 @@ components:
           format: int64
         token:
           type: string
+        refreshToken:
+          type: string
         username:
           type: string
         firstName:
@@ -83,7 +116,21 @@ components:
         expiresAt:
           type: string
           format: date-time
-        roles:
+        functions:
           type: array
           items:
             type: string
+
+    TokenRefreshRequest:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+
+    TokenRefreshResponse:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+        accessToken:
+          type: string

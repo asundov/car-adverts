@@ -14,6 +14,12 @@ paths:
   /authentication/auth/authenticate:
     $ref: './authentication.yaml#/paths/authenticate'
 
+  /authentication/auth/refresh-token:
+    $ref: './authentication.yaml#/paths/refresh-token'
+
+  /authentication/auth/logout:
+    $ref: './authentication.yaml#/paths/logout'
+
   #################
   # CarAdverts
   #################
