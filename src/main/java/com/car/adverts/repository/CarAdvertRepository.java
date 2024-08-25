@@ -26,6 +26,8 @@ public class CarAdvertRepository {
 
         sortBy = sortBy != null ? sortBy.toLowerCase() : "id";
 
+        log.info("Sorting by: {}", sortBy);
+
         String findAllEntitiesQuery = String.format(FIND_ALL_CAR_ADVERTS, sortBy);
         return jdbcTemplate.queryForList(findAllEntitiesQuery);
     }
@@ -43,23 +45,22 @@ public class CarAdvertRepository {
 
     public Long addCarAdvert(CarAdvertRequest carAdvertRequest) {
 
-        KeyHolder keyHolder = new GeneratedKeyHolder();  // To hold the generated key (ID)
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(INSERT_CAR_ADVERT, new String[]{"id"}); // Specify the column for the generated key
+            PreparedStatement ps = connection.prepareStatement(INSERT_CAR_ADVERT, new String[]{"id"});
             ps.setLong(1, carAdvertRequest.getId());
             ps.setString(2, carAdvertRequest.getTitle());
             ps.setString(3, carAdvertRequest.getFuelType());
             ps.setInt(4, carAdvertRequest.getPrice());
             ps.setBoolean(5, carAdvertRequest.getIsNew());
             ps.setInt(6, carAdvertRequest.getMileage());
-            ps.setDate(7, java.sql.Date.valueOf(carAdvertRequest.getFirstRegistration()));
+            ps.setDate(7, carAdvertRequest.getFirstRegistration() != null ? java.sql.Date.valueOf(carAdvertRequest.getFirstRegistration()) : null);
             ps.setInt(8, CarAdvertsConstants.STATUS_ACTIVE);
             return ps;
         }, keyHolder);
 
         return keyHolder.getKey() != null ? keyHolder.getKey().longValue() : null;
-
     }
 
 
@@ -75,7 +76,7 @@ public class CarAdvertRepository {
                 carAdvertRequest.getId());
 
         if (rowsAffected == 0) {
-            throw new CarAdvertsNotFoundException("Car advert not found with id: " + carAdvertRequest.getId());
+            throw new CarAdvertsNotFoundException("Car advert not found with id: " + id);
         }
     }
 
@@ -83,6 +84,8 @@ public class CarAdvertRepository {
         int rowsAffected = jdbcTemplate.update(DELETE_CAR_ADVERT,
                 CarAdvertsConstants.STATUS_INACTIVE,
                 id);
+
+        log.info("Number of affected rows: {}", rowsAffected);
 
         if (rowsAffected == 0) {
             throw new CarAdvertsNotFoundException("Car advert not found with id: " + id);

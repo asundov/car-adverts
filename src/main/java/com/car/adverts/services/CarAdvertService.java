@@ -24,6 +24,11 @@ public class CarAdvertService {
 
     public List<CarAdvertResponse> getCarAdverts(String sortby) {
 
+        log.info("Getting all active car adverts...");
+
+        if (sortby != null) {
+            carAdvertValidator.validateSortParameter(sortby);
+        }
         List<Map<String, Object>> queryResults = carAdvertRepository.getCarAdverts(sortby);
 
         List<CarAdvertResponse> carAdvertResponses = queryResults.stream()
@@ -36,30 +41,43 @@ public class CarAdvertService {
     }
 
     public CarAdvertResponse getCarAdvert(Long id) {
+        log.info("Getting car advert with id: {}", id);
 
         Map<String, Object> row = carAdvertRepository.getCarAdvert(id);
 
+        log.info("Successfully returned car advert with id: {}", id);
         return CarAdvertMapper.mapRowToCarAdvertResponse(row);
     }
 
     public CarAdvertResponse addCarAdvert(CarAdvertRequest carAdvertRequest) {
+        log.info("Adding new car advert.");
+
         carAdvertValidator.validateCarAdvertRequest(carAdvertRequest, null, false);
 
         Long id = carAdvertRepository.addCarAdvert(carAdvertRequest);
-        if (id == null) throw new CarAdvertsException();
+        if (id == null) {
+            log.error("Adding car advert failed!");
+            throw new CarAdvertsException();
+        }
 
         return getCarAdvert(id);
     }
 
 
     public CarAdvertResponse updateCarAdvert(Long id, CarAdvertRequest carAdvertRequest) {
+        log.info("Updating car advert with id: {}", id);
+
         carAdvertValidator.validateCarAdvertRequest(carAdvertRequest, id, true);
         carAdvertRepository.updateCarAdvert(id, carAdvertRequest);
 
+        log.info("Car advert updated successfully");
         return getCarAdvert(id);
     }
 
     public void deleteCarAdvert(Long id) {
+        log.info("Deleting car advert with id: {}", id);
+
         carAdvertRepository.deleteCarAdvert(id);
+        log.info("Car advert successfully deleted!");
     }
 }

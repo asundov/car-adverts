@@ -30,7 +30,7 @@ public class CarAdvertsExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({CarAdvertsException.class})
-    public ResponseEntity<ErrorResponse> evisitorException(CarAdvertsException e) {
+    public ResponseEntity<ErrorResponse> carAdvertsException(CarAdvertsException e) {
         log.error("", e);
         ErrorResponse response = ErrorResponse.builder()
                 .title(e.getMessage())
@@ -40,7 +40,7 @@ public class CarAdvertsExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({CarAdvertsNotFoundException.class})
-    public ResponseEntity<ErrorResponse> evisitorNotFoundException(CarAdvertsNotFoundException e) {
+    public ResponseEntity<ErrorResponse> carAdvertsNotFoundException(CarAdvertsNotFoundException e) {
         log.error("", e);
         ErrorResponse response = ErrorResponse.builder()
                 .title(e.getMessage())
@@ -50,7 +50,7 @@ public class CarAdvertsExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler({CarAdvertsValidationException.class})
-    public ResponseEntity<ErrorResponse> evisitorValidatonException(CarAdvertsValidationException e) {
+    public ResponseEntity<ErrorResponse> carAdvertsValidationException(CarAdvertsValidationException e) {
         log.error("", e);
         StringBuilder detailBuilder = new StringBuilder();
         List<String> validationMessages = e.getValidationMessages();
@@ -61,17 +61,14 @@ public class CarAdvertsExceptionHandler extends ResponseEntityExceptionHandler {
         }
         ErrorResponse response = ErrorResponse.builder()
                 .title(e.getMessage())
-                .status(HttpStatus.BAD_REQUEST.value())
-                .detail(detailBuilder.toString())
+                .status(HttpStatus.UNPROCESSABLE_ENTITY.value())
                 .build();
 
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        // return super.handleMethodArgumentNotValid(ex, headers, status, request);
-
         log.warn("", ex);
 
         ErrorResponse response = ErrorResponse.builder()

@@ -10,6 +10,7 @@ public class CarAdvertsConstants {
     public static final Integer STATUS_INACTIVE = 0;
 
     public static final Set<String> VALID_SORT_COLUMNS = Set.of(
+            "id",
             "title",
             "fuel_type",
             "is_new",

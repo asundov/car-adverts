@@ -117,7 +117,7 @@ CREATE TABLE core.car_advert
 	price integer,	-- Aktivan zapis: 1, ostalo: 0
 	is_new boolean DEFAULT FALSE,
 	mileage integer,
-	first_registration date NOT NULL   DEFAULT now(),
+	first_registration date,
 	active integer NOT NULL   DEFAULT 1,	-- Aktivan zapis: 1, ostalo: 0
 	created_by bigint NULL,	-- Korisnik koji je kreirao zapis.
 	created_date timestamp NOT NULL   DEFAULT now(),	-- Dan i vrijeme kad je kreiran zapis
