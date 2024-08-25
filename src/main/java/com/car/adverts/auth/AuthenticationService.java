@@ -40,8 +40,13 @@ public class AuthenticationService extends AbstractService {
                 new UsernamePasswordAuthenticationToken(
                         authUser, null, authUser.getAuthorities());
 
+        System.out.println("shrek i fiona " + usernamePasswordAuthenticationToken);
+        System.out.println("shrek i fiona " + authUser);
+
         SecurityContextHolder.getContext()
                 .setAuthentication(usernamePasswordAuthenticationToken);
+
+        System.out.println(SecurityContextHolder.getContext().getAuthentication());
 
         log.info("User: {} logged at time: {}, token: {} ", authUser.getUsername(), authUser.getJwtToken().getCreated(), authUser.getJwtToken().getToken());
 
@@ -56,7 +61,7 @@ public class AuthenticationService extends AbstractService {
                 .lastName(authUser.getLastname())
                 .refreshToken(authUser.getRefreshToken().getToken())
                 .pin(authUser.getPin())
-                .functions(assignedFunctions)
+                .roles(assignedFunctions)
                 .build();
     }
 

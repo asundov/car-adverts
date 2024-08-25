@@ -1,20 +1,20 @@
 package com.car.adverts.repository.conf;
 
 import com.car.adverts.config.exception.CarAdvertsException;
+import com.car.adverts.config.exception.CarAdvertsNotFoundException;
 import com.car.adverts.constants.CarAdvertsConstants;
+import com.car.adverts.constants.CarAdvertsErrorMessagesConstants;
 import com.car.adverts.domain.conf.User;
 import com.car.adverts.domain.conf.UserSession;
 import com.car.adverts.model.CarAdvertsAuthUser;
 import com.car.adverts.model.TokenData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -23,27 +23,38 @@ public class UserSessionRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public Optional<UserSession> findByRefreshToken(String refreshToken) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
+    public UserSession findByRefreshToken(String refreshToken) {
+        // Define the formatter without milliseconds
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         try {
-            UserSession userSession = jdbcTemplate.queryForObject(
+            return jdbcTemplate.queryForObject(
                     FIND_USER_SESSION_BY_REFRESH_TOKEN,
-                    (rs, rowNum) -> UserSession.builder()
-                            .id(rs.getLong("session_id"))
-                            .user(User.builder()
-                                    .id(rs.getLong("user_id"))
-                                    .username(rs.getString("username"))
-                                    .build())
-                            .refreshTokenExpirationDate(rs.getString("refresh_token_expiration_date") != null ?
-                                    LocalDateTime.parse(rs.getString("refresh_token_expiration_date"), formatter) : null)
-                            .build(),
+                    (rs, rowNum) -> {
+                        String dateTimeStr = rs.getString("refresh_token_expiration_date");
+
+                        // Trim milliseconds if present
+                        if (dateTimeStr != null) {
+                            int dotIndex = dateTimeStr.indexOf('.');
+                            if (dotIndex != -1) {
+                                dateTimeStr = dateTimeStr.substring(0, dotIndex);
+                            }
+                        }
+
+                        return UserSession.builder()
+                                .id(rs.getLong("session_id"))
+                                .user(User.builder()
+                                        .id(rs.getLong("user_id"))
+                                        .username(rs.getString("username"))
+                                        .build())
+                                .refreshTokenExpirationDate(dateTimeStr != null ?
+                                        LocalDateTime.parse(dateTimeStr, formatter) : null)
+                                .build();
+                    },
                     refreshToken);
-
-            return Optional.ofNullable(userSession);
-
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
+        } catch (Exception e) {
+            // Handle exceptions, such as parsing errors
+            throw new CarAdvertsNotFoundException(CarAdvertsErrorMessagesConstants.FIND_USER_SESSION_ERROR);
         }
     }
 
@@ -68,36 +79,66 @@ public class UserSessionRepository {
 
     }
 
+    private String formatSql(String sql, Object[] params) {
+        for (Object param : params) {
+            String value = (param instanceof String) ? "'" + param + "'" : param.toString();
+            sql = sql.replaceFirst("\\?", value);
+        }
+        return sql;
+    }
+
     public void updateRefreshToken(TokenData newRefreshToken, Long id) {
+        // Define the DateTimeFormatter to match PostgreSQL's timestamp format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        Object[] params = new Object[]{
-                newRefreshToken.getToken(), // new refresh token
-                newRefreshToken.getCreated(), // refresh token creation date
-                newRefreshToken.getExpiresAt(), // refresh token expiration date
-                LocalDateTime.now(), // modified date
-                id, // ID of the user making the update
-                id // ID of the user session to update
-        };
+        // Format LocalDateTime.now() using the formatter
+        String formattedNow = LocalDateTime.now().format(formatter);
+        String formattedCreated = newRefreshToken.getCreated().format(formatter);
+        String formattedExpiresAt = newRefreshToken.getExpiresAt().format(formatter);
 
-        int rowsUpdated = jdbcTemplate.update(UPDATE_REFRESH_TOKEN, params);
+        // Print the formatted SQL statement for debugging
+        System.out.println(formatSql(UPDATE_REFRESH_TOKEN, new Object[]{newRefreshToken.getToken(), formattedCreated, formattedExpiresAt, formattedNow, id, id}));
+
+        // Perform the update using the formatted date-time strings
+        int rowsUpdated = jdbcTemplate.update(UPDATE_REFRESH_TOKEN,
+                newRefreshToken.getToken(),
+                formattedCreated,
+                formattedExpiresAt,
+                formattedNow,
+                id,
+                id);
 
         if (rowsUpdated == 0) {
             throw new CarAdvertsException("User session not found or update failed!");
         }
-
     }
 
     public void logoutUser(User user) {
 
+        Long userSessionId = jdbcTemplate.queryForObject(
+                FIND_USER_SESSION_BY_USER,
+                (rs, rowNum) -> rs.getLong("id"), // RowMapper to extract the id column as Long
+                new Object[]{user.getId()} // Pass the userId as a parameter
+        );
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedLogout = LocalDateTime.now().format(formatter);
+
+
         Object[] params = new Object[]{
+                formattedLogout, // logout_date
+                CarAdvertsConstants.STATUS_INACTIVE, // new status
+                formattedLogout, // modified_date
+                user.getId(), // modified_by
+                userSessionId
+        };
+        System.out.println(formatSql(LOGOUT_USER, new Object[]{
                 LocalDateTime.now(), // logout_date
                 CarAdvertsConstants.STATUS_INACTIVE, // new status
                 LocalDateTime.now(), // modified_date
                 user.getId(), // modified_by
-                user.getUsername(), // username for the subquery
-                CarAdvertsConstants.STATUS_ACTIVE,
-                CarAdvertsConstants.STATUS_ACTIVE
-        };
+                userSessionId
+        }));
 
         int rowsUpdated = jdbcTemplate.update(LOGOUT_USER, params);
 
@@ -115,6 +156,12 @@ public class UserSessionRepository {
             "LEFT JOIN conf.user u ON u.id = us.user_id " +
             "WHERE us.status = 1 AND us.refresh_token = ?";
 
+    private static final String FIND_USER_SESSION_BY_USER = "SELECT " +
+            "us.id " +
+            "FROM conf.user_session us " +
+            "LEFT JOIN conf.user u ON u.id = us.user_id " +
+            "WHERE us.status = 1 AND u.id = ?";
+
     private static final String UPDATE_EXISTING_SESSIONS = "UPDATE conf.user_session " +
             "SET status = ? " +
             "WHERE user_id = ? ";
@@ -122,27 +169,20 @@ public class UserSessionRepository {
     private static final String ADD_NEW_SESSIONS = "INSERT INTO conf.user_session (user_id, login_date, refresh_token, ip_address, refresh_token_creation_date, " +
             "refresh_token_expiration_date, status, created_date, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    private static final String UPDATE_REFRESH_TOKEN = "UPDATE conf.user_session " +
-            "   SET " +
-            "   refresh_token = ?, " +
-            "   refresh_token_creation_date = ?, " +
-            "   refresh_token_expiration_date = ?, " +
-            "   modified_date = ?, " +
-            "   modified_by = ? " +
-            "   WHERE id = ?";
+    private static final String UPDATE_REFRESH_TOKEN = "" +
+            "UPDATE conf.user_session " +
+            "SET refresh_token = ?, " +
+            "    refresh_token_creation_date = CAST(? AS TIMESTAMP), " +
+            "    refresh_token_expiration_date = CAST(? AS TIMESTAMP), " +
+            "    modified_date = CAST(? AS TIMESTAMP), " +
+            "    modified_by = ? " +
+            "WHERE user_id = ?";
     private static final String LOGOUT_USER =
-            "UPDATE conf.user_session us " +
-                    "SET " +
-                    "    us.logout_date = ?, " +
-                    "    us.status = ?, " +
-                    "    us.modified_date = ?, " +
-                    "    us.modified_by = ? " +
-                    " WHERE " +
-                    "   us.user_id = ( " +
-                    "     SELECT u.id " +
-                    "     FROM users u " +
-                    "     WHERE u.username = ? " +
-                    "    AND u.active = 1 " +
-                    " ) " +
-                    " AND us.status = 1";
+            "UPDATE conf.user_session " +
+                    "SET  " +
+                    "    logout_date = CAST(? AS TIMESTAMP),  " +
+                    "    status = ?,  " +
+                    "    modified_date = CAST(? AS TIMESTAMP),  " +
+                    "    modified_by = ? " +
+                    "WHERE id = ? ";
 }

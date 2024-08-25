@@ -2,7 +2,6 @@ package com.car.adverts.services;
 
 import com.car.adverts.auth.JwtService;
 import com.car.adverts.config.exception.CarAdvertsException;
-import com.car.adverts.config.exception.CarAdvertsNotFoundException;
 import com.car.adverts.constants.CarAdvertsErrorMessagesConstants;
 import com.car.adverts.domain.conf.User;
 import com.car.adverts.domain.conf.UserSession;
@@ -77,7 +76,7 @@ public class UserService extends AbstractService {
     }
 
     public CarAdvertsAuthUser fetchByRefreshToken(String token) {
-        UserSession us = userSessionRepository.findByRefreshToken(token).orElseThrow(() -> new CarAdvertsNotFoundException(CarAdvertsErrorMessagesConstants.FIND_USER_SESSION_ERROR));
+        UserSession us = userSessionRepository.findByRefreshToken(token);
         List<String> roles = userRepository.findRolesByUsername(us.getUser().getUsername());
 
         List<GrantedAuthority> authorities = new ArrayList<>();
