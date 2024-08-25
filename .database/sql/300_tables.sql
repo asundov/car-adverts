@@ -125,3 +125,16 @@ CREATE TABLE core.car_advert
 	modified_date timestamp NOT NULL   DEFAULT now()	-- Dan i vrijeme kad je ažuriran zapis
 )
 ;
+
+CREATE TABLE codebook.fuel_type
+(
+	id bigint NOT NULL   DEFAULT NEXTVAL(('core."fuel_type_id_seq"'::text)::regclass),	-- Jedinstveni identifikator.
+	uname varchar NOT NULL,	-- Naziv
+	ucode varchar,	-- Kod
+	active integer NOT NULL   DEFAULT 1,	-- Aktivan zapis: 1, ostalo: 0
+	created_by bigint NULL,	-- Korisnik koji je kreirao zapis.
+	created_date timestamp NOT NULL   DEFAULT now(),	-- Dan i vrijeme kad je kreiran zapis
+	modified_by bigint NULL,	-- Korisnik koji je ažurirao zapis
+	modified_date timestamp NOT NULL   DEFAULT now()	-- Dan i vrijeme kad je ažuriran zapis
+)
+;

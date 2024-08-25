@@ -24,6 +24,14 @@ paths:
   /car/adverts/{id}:
     $ref: './car-adverts.yaml#/paths/car-advert'
 
+  #################
+  # Codebooks
+  #################
+
+  /codebooks/fuel-types:
+    $ref: './codebooks.yaml#/paths/fuel-types'
+
+
 components:
   schemas:
     ErrorResponse:

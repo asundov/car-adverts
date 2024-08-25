@@ -54,6 +54,10 @@ ALTER TABLE core.car_advert ADD CONSTRAINT "PK_car_advert"
 ;
 
 
+ALTER TABLE codebook.fuel_type ADD CONSTRAINT "PK_fuel_type"
+	PRIMARY KEY (id)
+;
+
 
 
 

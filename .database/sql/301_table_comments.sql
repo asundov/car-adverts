@@ -1,5 +1,8 @@
 /* Create Table Comments, Sequences for Autonumber Columns */
 
+--  #################
+--  # Conf
+--  #################
 
 COMMENT ON TABLE conf."user"
 	IS 'Korisnici sustava'
@@ -316,12 +319,15 @@ CREATE SEQUENCE conf.user_x_role_id_seq INCREMENT 1 START 10000
 
 
 
+--  #################
+--  # Core
+--  #################
 
 CREATE SEQUENCE core.car_advert_id_seq INCREMENT 1 START 10000
 ;
 
 COMMENT ON TABLE core.car_advert
-	IS 'Šifrarnik kategorija smještajnih jedinica.'
+	IS 'Oglasi za auto.'
 ;
 
 COMMENT ON COLUMN core.car_advert.id
@@ -352,11 +358,9 @@ COMMENT ON COLUMN core.car_advert.first_registration
 	IS 'Prva registracija'
 ;
 
-
 COMMENT ON COLUMN core.car_advert.active
 	IS 'Aktivan zapis: 1, ostalo: 0'
 ;
-
 
 COMMENT ON COLUMN core.car_advert.created_by
 	IS 'Korisnik koji je kreirao zapis.'
@@ -371,4 +375,50 @@ COMMENT ON COLUMN core.car_advert.modified_by
 ;
 
 COMMENT ON COLUMN core.car_advert.modified_date
+	IS 'Dan i vrijeme kad je ažuriran zapis'
+;
+
+
+--  #################
+--  # Codebooks
+--  #################
+
+CREATE SEQUENCE codebook.fuel_type_id_seq INCREMENT 1 START 10000
+;
+
+COMMENT ON TABLE codebook.fuel_type
+	IS 'Šifrarnik vrsta goriva.'
+;
+
+COMMENT ON COLUMN codebook.fuel_type.id
+	IS 'Jedinstveni identifikator.'
+;
+
+COMMENT ON COLUMN codebook.fuel_type.uname
+	IS 'Naziv'
+;
+
+COMMENT ON COLUMN codebook.fuel_type.ucode
+	IS 'Kod'
+;
+
+
+COMMENT ON COLUMN codebook.fuel_type.active
+	IS 'Aktivan zapis: 1, ostalo: 0'
+;
+
+
+COMMENT ON COLUMN codebook.fuel_type.created_by
+	IS 'Korisnik koji je kreirao zapis.'
+;
+
+COMMENT ON COLUMN codebook.fuel_type.created_date
+	IS 'Dan i vrijeme kad je kreiran zapis'
+;
+
+COMMENT ON COLUMN codebook.fuel_type.modified_by
+	IS 'Korisnik koji je ažurirao zapis'
+;
+
+COMMENT ON COLUMN codebook.fuel_type.modified_date
 	IS 'Dan i vrijeme kad je ažuriran zapis'

@@ -1,2 +1,3 @@
 CREATE SCHEMA core;
 CREATE SCHEMA conf;
+CREATE SCHEMA codebook;
