@@ -39,6 +39,14 @@ public class CarAdvertsControllerImplTest {
 
     @Test
 //    @Disabled
+    public void testGetCarAdvertsPaged() {
+        ResponseEntity<List<CarAdvertResponse>> carAdvertsEntity = carAdvertsControllerImpl.getCarAdvertsPaged(null, 5, 0);
+        log.info(carAdvertsEntity.getBody());
+        assertEquals(HttpStatus.OK, carAdvertsEntity.getStatusCode());
+    }
+
+    @Test
+//    @Disabled
     public void addCarAdvert() {
         CarAdvertRequest carAdvertRequest = CarAdvertRequest.builder()
                 .id(random.nextLong(1000L))
