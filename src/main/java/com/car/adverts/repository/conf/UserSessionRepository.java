@@ -24,7 +24,6 @@ public class UserSessionRepository {
     private final JdbcTemplate jdbcTemplate;
 
     public UserSession findByRefreshToken(String refreshToken) {
-        // Define the formatter without milliseconds
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
         try {
@@ -33,7 +32,6 @@ public class UserSessionRepository {
                     (rs, rowNum) -> {
                         String dateTimeStr = rs.getString("refresh_token_expiration_date");
 
-                        // Trim milliseconds if present
                         if (dateTimeStr != null) {
                             int dotIndex = dateTimeStr.indexOf('.');
                             if (dotIndex != -1) {
@@ -53,16 +51,15 @@ public class UserSessionRepository {
                     },
                     refreshToken);
         } catch (Exception e) {
-            // Handle exceptions, such as parsing errors
             throw new CarAdvertsNotFoundException(CarAdvertsErrorMessagesConstants.FIND_USER_SESSION_ERROR);
         }
     }
 
-    public void updateExistingSessions(Long userId) {
-        jdbcTemplate.update(UPDATE_EXISTING_SESSIONS, CarAdvertsConstants.STATUS_INACTIVE, userId);
+    public int updateExistingSessions(Long userId) {
+        return jdbcTemplate.update(UPDATE_EXISTING_SESSIONS, CarAdvertsConstants.STATUS_INACTIVE, userId);
     }
 
-    public void addNewSession(CarAdvertsAuthUser authUser, Long id) {
+    public int addNewSession(CarAdvertsAuthUser authUser, Long id) {
 
         int affectedRowsCount = jdbcTemplate.update(ADD_NEW_SESSIONS,
                 id,
@@ -76,7 +73,7 @@ public class UserSessionRepository {
                 id);
 
         log.info("Number of newly created sessions: " + affectedRowsCount);
-
+        return affectedRowsCount;
     }
 
     private String formatSql(String sql, Object[] params) {
@@ -88,18 +85,12 @@ public class UserSessionRepository {
     }
 
     public void updateRefreshToken(TokenData newRefreshToken, Long id) {
-        // Define the DateTimeFormatter to match PostgreSQL's timestamp format
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-        // Format LocalDateTime.now() using the formatter
         String formattedNow = LocalDateTime.now().format(formatter);
         String formattedCreated = newRefreshToken.getCreated().format(formatter);
         String formattedExpiresAt = newRefreshToken.getExpiresAt().format(formatter);
 
-        // Print the formatted SQL statement for debugging
-        System.out.println(formatSql(UPDATE_REFRESH_TOKEN, new Object[]{newRefreshToken.getToken(), formattedCreated, formattedExpiresAt, formattedNow, id, id}));
-
-        // Perform the update using the formatted date-time strings
         int rowsUpdated = jdbcTemplate.update(UPDATE_REFRESH_TOKEN,
                 newRefreshToken.getToken(),
                 formattedCreated,
@@ -117,28 +108,20 @@ public class UserSessionRepository {
 
         Long userSessionId = jdbcTemplate.queryForObject(
                 FIND_USER_SESSION_BY_USER,
-                (rs, rowNum) -> rs.getLong("id"), // RowMapper to extract the id column as Long
-                new Object[]{user.getId()} // Pass the userId as a parameter
-        );
+                (rs, rowNum) -> rs.getLong("id"),
+                user.getId());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedLogout = LocalDateTime.now().format(formatter);
 
 
         Object[] params = new Object[]{
-                formattedLogout, // logout_date
-                CarAdvertsConstants.STATUS_INACTIVE, // new status
-                formattedLogout, // modified_date
-                user.getId(), // modified_by
+                formattedLogout,
+                CarAdvertsConstants.STATUS_INACTIVE,
+                formattedLogout,
+                user.getId(),
                 userSessionId
         };
-        System.out.println(formatSql(LOGOUT_USER, new Object[]{
-                LocalDateTime.now(), // logout_date
-                CarAdvertsConstants.STATUS_INACTIVE, // new status
-                LocalDateTime.now(), // modified_date
-                user.getId(), // modified_by
-                userSessionId
-        }));
 
         int rowsUpdated = jdbcTemplate.update(LOGOUT_USER, params);
 

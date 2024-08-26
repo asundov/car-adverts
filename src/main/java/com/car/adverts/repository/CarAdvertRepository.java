@@ -25,7 +25,6 @@ public class CarAdvertRepository {
     public List<Map<String, Object>> getCarAdverts(String sortBy) {
 
         sortBy = sortBy != null ? sortBy.toLowerCase() : "id";
-
         log.info("Sorting by: {}", sortBy);
 
         String findAllEntitiesQuery = String.format(FIND_ALL_CAR_ADVERTS, sortBy);
@@ -51,11 +50,35 @@ public class CarAdvertRepository {
             PreparedStatement ps = connection.prepareStatement(INSERT_CAR_ADVERT, new String[]{"id"});
             ps.setLong(1, carAdvertRequest.getId());
             ps.setString(2, carAdvertRequest.getTitle());
-            ps.setString(3, carAdvertRequest.getFuelType());
-            ps.setInt(4, carAdvertRequest.getPrice());
-            ps.setBoolean(5, carAdvertRequest.getIsNew());
-            ps.setInt(6, carAdvertRequest.getMileage());
-            ps.setDate(7, carAdvertRequest.getFirstRegistration() != null ? java.sql.Date.valueOf(carAdvertRequest.getFirstRegistration()) : null);
+            if (carAdvertRequest.getFuelType() != null) {
+                ps.setString(3, carAdvertRequest.getFuelType());
+            } else {
+                ps.setNull(3, java.sql.Types.VARCHAR);
+            }
+
+            if (carAdvertRequest.getPrice() != null) {
+                ps.setInt(4, carAdvertRequest.getPrice());
+            } else {
+                ps.setNull(4, java.sql.Types.INTEGER);
+            }
+
+            if (carAdvertRequest.getIsNew() != null) {
+                ps.setBoolean(5, carAdvertRequest.getIsNew());
+            } else {
+                ps.setNull(5, java.sql.Types.BOOLEAN);
+            }
+
+            if (carAdvertRequest.getMileage() != null) {
+                ps.setInt(6, carAdvertRequest.getMileage());
+            } else {
+                ps.setNull(6, java.sql.Types.INTEGER);
+            }
+
+            if (carAdvertRequest.getFirstRegistration() != null) {
+                ps.setDate(7, java.sql.Date.valueOf(carAdvertRequest.getFirstRegistration()));
+            } else {
+                ps.setNull(7, java.sql.Types.DATE);
+            }
             ps.setInt(8, CarAdvertsConstants.STATUS_ACTIVE);
             return ps;
         }, keyHolder);

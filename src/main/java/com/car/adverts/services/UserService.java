@@ -8,7 +8,6 @@ import com.car.adverts.domain.conf.UserSession;
 import com.car.adverts.model.CarAdvertsAuthUser;
 import com.car.adverts.model.TokenData;
 import com.car.adverts.repository.conf.UserRepository;
-import com.car.adverts.repository.conf.UserRoleRepository;
 import com.car.adverts.repository.conf.UserSessionRepository;
 import com.car.adverts.utils.HttpUtils;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +29,6 @@ public class UserService extends AbstractService {
     private final JwtService jwtService;
     private final UserRepository userRepository;
     private final UserSessionRepository userSessionRepository;
-    private final UserRoleRepository userRoleRepository;
 
     @Transactional
     public CarAdvertsAuthUser loginPlainUser(String username) {

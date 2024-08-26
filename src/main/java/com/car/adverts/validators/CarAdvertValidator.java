@@ -1,6 +1,5 @@
 package com.car.adverts.validators;
 
-import com.car.adverts.config.exception.CarAdvertsException;
 import com.car.adverts.config.exception.CarAdvertsValidationException;
 import com.car.adverts.constants.CarAdvertsConstants;
 import com.car.adverts.constants.CarAdvertsErrorMessagesConstants;
@@ -21,7 +20,15 @@ public class CarAdvertValidator {
         log.info("Validating input data for car adverts...");
 
         if (carAdvertRequest == null) {
-            throw new CarAdvertsException(CarAdvertsErrorMessagesConstants.REQUEST_NULL_ERROR);
+            throw new CarAdvertsValidationException(CarAdvertsErrorMessagesConstants.REQUEST_NULL_ERROR);
+        }
+
+        if (carAdvertRequest.getTitle() == null) {
+            errorMessages.add(CarAdvertsErrorMessagesConstants.TITLE_NULL_ERROR);
+        }
+
+        if (carAdvertRequest.getTitle() != null && carAdvertRequest.getTitle().isEmpty()) {
+            errorMessages.add(CarAdvertsErrorMessagesConstants.TITLE_EMPTY_ERROR);
         }
 
         if (carAdvertRequest.getPrice() != null && carAdvertRequest.getPrice() < 0) {

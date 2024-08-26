@@ -1,6 +1,5 @@
-package com.car.adverts.api;
+package com.car.adverts.auth;
 
-import com.car.adverts.auth.AuthenticationService;
 import hr.ericsson.eb.car.adverts.api.AuthenticationApi;
 import hr.ericsson.eb.car.adverts.api.model.*;
 import lombok.RequiredArgsConstructor;
