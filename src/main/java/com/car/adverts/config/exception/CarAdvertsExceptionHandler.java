@@ -46,7 +46,7 @@ public class CarAdvertsExceptionHandler extends ResponseEntityExceptionHandler {
                 .title(e.getMessage())
                 .status(HttpStatus.NOT_FOUND.value())
                 .build();
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({CarAdvertsValidationException.class})

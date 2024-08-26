@@ -1,7 +1,9 @@
 package com.car.adverts.repository;
 
+import com.car.adverts.config.exception.CarAdvertsException;
 import com.car.adverts.config.exception.CarAdvertsNotFoundException;
 import com.car.adverts.constants.CarAdvertsConstants;
+import com.car.adverts.constants.CarAdvertsErrorMessagesConstants;
 import hr.ericsson.eb.car.adverts.api.model.CarAdvertRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -38,7 +40,7 @@ public class CarAdvertRepository {
             log.info("Successfully found car advert with id: {}", id);
             return row;
         } catch (EmptyResultDataAccessException e) {
-            throw new CarAdvertsNotFoundException();
+            throw new CarAdvertsNotFoundException(CarAdvertsErrorMessagesConstants.CAR_ADVERT_NOT_FOUND_ERROR);
         }
     }
 
@@ -99,7 +101,7 @@ public class CarAdvertRepository {
                 carAdvertRequest.getId());
 
         if (rowsAffected == 0) {
-            throw new CarAdvertsNotFoundException("Car advert not found with id: " + id);
+            throw new CarAdvertsException(CarAdvertsErrorMessagesConstants.UPDATE_FAILED_ERROR + id);
         }
     }
 
@@ -111,7 +113,7 @@ public class CarAdvertRepository {
         log.info("Number of affected rows: {}", rowsAffected);
 
         if (rowsAffected == 0) {
-            throw new CarAdvertsNotFoundException("Car advert not found with id: " + id);
+            throw new CarAdvertsException(CarAdvertsErrorMessagesConstants.DELETE_FAILED_ERROR + id);
         }
     }
 

@@ -15,6 +15,11 @@ public class CarAdvertsErrorMessagesConstants {
     public static final String FIND_USER_ERROR = "User not found!";
     public static final String FIND_USER_SESSION_ERROR = "User session not found!";
     public static final String USER_SESSION_EXPIRED_ERROR = "User session expired!";
+    public static final String CAR_ADVERT_NOT_FOUND_ERROR = "Car advert not found!";
+    public static final String UPDATE_FAILED_ERROR = "Update failed! Id: ";
+    public static final String DELETE_FAILED_ERROR = "Deletion failed! Id: ";
+
+    public static final String ADD_FAILED_ERROR = "Adding failed! Id is null.";
 
 
 }

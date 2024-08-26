@@ -1,6 +1,7 @@
 package com.car.adverts.services;
 
 import com.car.adverts.config.exception.CarAdvertsException;
+import com.car.adverts.constants.CarAdvertsErrorMessagesConstants;
 import com.car.adverts.dto.CarAdvertMapper;
 import com.car.adverts.repository.CarAdvertRepository;
 import com.car.adverts.validators.CarAdvertValidator;
@@ -56,8 +57,7 @@ public class CarAdvertService {
 
         Long id = carAdvertRepository.addCarAdvert(carAdvertRequest);
         if (id == null) {
-            log.error("Adding car advert failed!");
-            throw new CarAdvertsException();
+            throw new CarAdvertsException(CarAdvertsErrorMessagesConstants.ADD_FAILED_ERROR);
         }
 
         return getCarAdvert(id);
