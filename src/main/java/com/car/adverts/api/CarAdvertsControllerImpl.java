@@ -42,6 +42,19 @@ public class CarAdvertsControllerImpl implements CarApi {
         return ResponseEntity.ok(carAdvertService.getCarAdvert(id));
     }
 
+    /**
+     * GET /car/adverts-paginated : get car adverts paginated where user have access
+     *
+     * @param sortby parameter sortby (optional)
+     * @param limit  parameter limit (optional)
+     * @param offset parameter offset (optional)
+     * @return Return list of car adverts (status code 200)
+     */
+    @Override
+    public ResponseEntity<List<CarAdvertResponse>> getCarAdvertsPaged(String sortby, Integer limit, Integer offset) {
+        return ResponseEntity.ok(carAdvertService.getCarAdvertsPaged(sortby, limit, offset));
+    }
+
 
     /**
      * POST /car/adverts : add car advert

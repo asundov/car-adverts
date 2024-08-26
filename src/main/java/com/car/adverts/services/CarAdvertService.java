@@ -41,6 +41,23 @@ public class CarAdvertService {
         return carAdvertResponses;
     }
 
+    public List<CarAdvertResponse> getCarAdvertsPaged(String sortby, Integer limit, Integer offset) {
+        log.info("Getting all active car adverts with pagination...");
+
+        if (sortby != null) {
+            carAdvertValidator.validateSortParameter(sortby);
+        }
+        List<Map<String, Object>> queryResults = carAdvertRepository.getCarAdvertsPaged(sortby, offset, limit);
+
+        List<CarAdvertResponse> carAdvertResponses = queryResults.stream()
+                .map(CarAdvertMapper::mapRowToCarAdvertResponse)
+                .collect(Collectors.toList());
+
+        log.info("Car adverts returned successfully. Number of returned adverts: {}", carAdvertResponses.size());
+
+        return carAdvertResponses;
+    }
+
     public CarAdvertResponse getCarAdvert(Long id) {
         log.info("Getting car advert with id: {}", id);
 

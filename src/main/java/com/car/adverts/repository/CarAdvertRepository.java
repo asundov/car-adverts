@@ -33,6 +33,18 @@ public class CarAdvertRepository {
         return jdbcTemplate.queryForList(findAllEntitiesQuery);
     }
 
+    public List<Map<String, Object>> getCarAdvertsPaged(String sortBy, int page, int size) {
+        sortBy = sortBy != null ? sortBy.toLowerCase() : "id";
+        log.info("Sorting by: {}", sortBy);
+
+        String findAllEntitiesQuery = String.format(FIND_ALL_CAR_ADVERTS_PAGED, sortBy, size, page * size);
+//        MapSqlParameterSource params = new MapSqlParameterSource()
+//                .addValue("limit", size)
+//                .addValue("offset", page * size);
+
+        return jdbcTemplate.queryForList(findAllEntitiesQuery);
+    }
+
     public Map<String, Object> getCarAdvert(Long id) {
 
         try {
@@ -122,6 +134,13 @@ public class CarAdvertRepository {
             "WHERE ca.active = 1 " +
             "ORDER BY %s";
 
+    private static final String FIND_ALL_CAR_ADVERTS_PAGED = """
+            SELECT * 
+            FROM core.car_advert ca 
+            WHERE ca.active = 1 
+            ORDER BY %s
+            LIMIT %d OFFSET %d
+            """;
     private static final String FIND_CAR_ADVERT_BY_ID = "SELECT * " +
             "FROM core.car_advert ca " +
             "WHERE ca.id = ? " +

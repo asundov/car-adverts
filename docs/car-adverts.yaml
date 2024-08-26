@@ -46,6 +46,38 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
+  car-adverts-paged:
+    get:
+      tags:
+        - car-adverts
+      operationId: getCarAdvertsPaged
+      summary: get car adverts paginated where user have access
+      parameters:
+        - in: query
+          name: sortby
+          schema:
+            type: string
+          description: parameter sortby
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: parameter limit
+        - in: query
+          name: offset
+          schema:
+            type: integer
+          description: parameter offset
+      responses:
+        200:
+          description: Return list of car adverts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CarAdvertResponse'
+
   car-advert:
     get:
       tags:
