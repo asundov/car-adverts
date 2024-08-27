@@ -84,7 +84,7 @@ public class PreAuthorizeCarAdvertsAspect {
                 return true;
             }
         }
-        log.debuggit("User does NOT have proper roles for this controller.");
+        log.debug("User does NOT have proper roles for this controller.");
         return false;
     }
 
