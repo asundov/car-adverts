@@ -40,7 +40,7 @@ public class CarAdvertsControllerImplTest {
     @Test
 //    @Disabled
     public void testGetCarAdvertsPaged() {
-        ResponseEntity<List<CarAdvertResponse>> carAdvertsEntity = carAdvertsControllerImpl.getCarAdvertsPaged(null, 5, 0);
+        ResponseEntity<List<CarAdvertResponse>> carAdvertsEntity = carAdvertsControllerImpl.getCarAdvertsPaged(5, 0, null);
         log.info(carAdvertsEntity.getBody());
         assertEquals(HttpStatus.OK, carAdvertsEntity.getStatusCode());
     }

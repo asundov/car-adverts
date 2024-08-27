@@ -46,17 +46,17 @@ public class CarAdvertsControllerImpl implements CarApi {
     }
 
     /**
-     * GET /car/adverts-paginated : get car adverts paginated where user have access
+     * GET /car/adverts-paged : get car adverts paginated where user have access
      *
+     * @param limit  parameter limit (required)
+     * @param offset parameter offset (required)
      * @param sortby parameter sortby (optional)
-     * @param limit  parameter limit (optional)
-     * @param offset parameter offset (optional)
      * @return Return list of car adverts (status code 200)
      */
     @Override
     @PreAuthorizeCarAdverts
-    public ResponseEntity<List<CarAdvertResponse>> getCarAdvertsPaged(String sortby, Integer limit, Integer offset) {
-        return ResponseEntity.ok(carAdvertService.getCarAdvertsPaged(sortby, limit, offset));
+    public ResponseEntity<List<CarAdvertResponse>> getCarAdvertsPaged(Integer limit, Integer offset, String sortby) {
+        return ResponseEntity.ok(carAdvertService.getCarAdvertsPaged(limit, offset, sortby));
     }
 
     /**

@@ -60,11 +60,13 @@ paths:
           description: parameter sortby
         - in: query
           name: limit
+          required: true
           schema:
             type: integer
           description: parameter limit
         - in: query
           name: offset
+          required: true
           schema:
             type: integer
           description: parameter offset

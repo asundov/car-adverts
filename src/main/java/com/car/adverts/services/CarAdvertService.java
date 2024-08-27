@@ -41,7 +41,7 @@ public class CarAdvertService {
         return carAdvertResponses;
     }
 
-    public List<CarAdvertResponse> getCarAdvertsPaged(String sortby, Integer limit, Integer offset) {
+    public List<CarAdvertResponse> getCarAdvertsPaged(Integer limit, Integer offset, String sortby) {
         log.info("Getting all active car adverts with pagination...");
 
         if (sortby != null) {
