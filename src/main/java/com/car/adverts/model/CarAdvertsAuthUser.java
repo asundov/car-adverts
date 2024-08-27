@@ -12,6 +12,7 @@ import java.util.Collection;
 public class CarAdvertsAuthUser extends User {
 
     private String ipAddress;
+
     private TokenData jwtToken;
 
     private TokenData refreshToken;
@@ -31,6 +32,5 @@ public class CarAdvertsAuthUser extends User {
     public CarAdvertsAuthUser(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, authorities);
     }
-
 }
 

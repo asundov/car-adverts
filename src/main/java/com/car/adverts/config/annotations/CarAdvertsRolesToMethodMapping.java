@@ -10,12 +10,16 @@ public class CarAdvertsRolesToMethodMapping {
     public static final Map<String, Set<String>> ROLES_TO_METHODS_MAP = new HashMap<>();
 
     static {
-        ROLES_TO_CONTROLLERS_MAP.put("CountryApiControllerImpl",
-                new HashSet<>(Arrays.asList("admin", "skladistar")));
+        ROLES_TO_CONTROLLERS_MAP.put("CodebookApiControllerImpl",
+                new HashSet<>(Arrays.asList("admin")));
     }
 
     static {
-        ROLES_TO_METHODS_MAP.put("CountryApiControllerImpl.countries",
+        ROLES_TO_METHODS_MAP.put("addCarAdvert",
+                new HashSet<>(Arrays.asList("admin")));
+        ROLES_TO_METHODS_MAP.put("updateCarAdvert",
+                new HashSet<>(Arrays.asList("admin")));
+        ROLES_TO_METHODS_MAP.put("deleteCarAdvert",
                 new HashSet<>(Arrays.asList("admin")));
     }
 

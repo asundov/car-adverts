@@ -1,7 +1,6 @@
 package com.car.adverts.config.exception;
 
 public class CarAdvertsException extends RuntimeException {
-
     public CarAdvertsException() {
         super();
     }

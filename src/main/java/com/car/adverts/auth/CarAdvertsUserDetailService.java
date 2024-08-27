@@ -19,9 +19,7 @@ public class CarAdvertsUserDetailService implements UserDetailsService {
     @Override
     @Cacheable(value = "userCache")
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
         return userService.getCarAdvertsAuthUser(username, false);
     }
-
 }
 

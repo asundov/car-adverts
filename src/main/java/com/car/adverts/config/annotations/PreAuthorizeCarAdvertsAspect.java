@@ -26,7 +26,7 @@ public class PreAuthorizeCarAdvertsAspect {
 
         String controllerName = joinPoint.getTarget().getClass().getSimpleName();
         //to avoid methods with same name in different controllers
-        String method = controllerName + "." + joinPoint.getSignature().getName();
+        String method = joinPoint.getSignature().getName();
 
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -84,7 +84,7 @@ public class PreAuthorizeCarAdvertsAspect {
                 return true;
             }
         }
-        log.debug("User does NOT have proper roles for this controller.");
+        log.debuggit("User does NOT have proper roles for this controller.");
         return false;
     }
 

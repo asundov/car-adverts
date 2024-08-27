@@ -17,6 +17,7 @@ import java.util.List;
 public class UserRole extends AbstractDomainCore {
 
     private String uname;
+
     private String ucode;
 
     private List<UserXRole> userXRoles;

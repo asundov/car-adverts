@@ -68,9 +68,7 @@ public class UserRepository {
                 throw new CarAdvertsNotFoundException(CarAdvertsErrorMessagesConstants.FIND_USER_ERROR);
             }
         }
-
         return roleUnames;
-
     }
 
     public List<User> findAllActiveUsers() {

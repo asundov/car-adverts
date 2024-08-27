@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class UserSession {
 
-
     private Long id;
 
     private Integer status;
@@ -29,10 +28,14 @@ public class UserSession {
     private User user;
 
     private LocalDateTime loginDate;
-    private LocalDateTime logoutDate;
-    private String ipAddress;
-    private String refreshToken;
-    private LocalDateTime refreshTokenCreationDate;
-    private LocalDateTime refreshTokenExpirationDate;
 
+    private LocalDateTime logoutDate;
+
+    private String ipAddress;
+
+    private String refreshToken;
+
+    private LocalDateTime refreshTokenCreationDate;
+
+    private LocalDateTime refreshTokenExpirationDate;
 }

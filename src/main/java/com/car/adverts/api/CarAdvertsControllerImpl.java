@@ -1,5 +1,6 @@
 package com.car.adverts.api;
 
+import com.car.adverts.config.annotations.PreAuthorizeCarAdverts;
 import com.car.adverts.services.CarAdvertService;
 import hr.ericsson.eb.car.adverts.api.CarApi;
 import hr.ericsson.eb.car.adverts.api.model.CarAdvertRequest;
@@ -26,6 +27,7 @@ public class CarAdvertsControllerImpl implements CarApi {
      * @return Return list of car adverts (status code 200)
      */
     @Override
+    @PreAuthorizeCarAdverts
     public ResponseEntity<List<CarAdvertResponse>> getCarAdverts(String sortby) {
         return ResponseEntity.ok(carAdvertService.getCarAdverts(sortby));
     }
@@ -38,6 +40,7 @@ public class CarAdvertsControllerImpl implements CarApi {
      * or No car advert with given id was found (status code 404)
      */
     @Override
+    @PreAuthorizeCarAdverts
     public ResponseEntity<CarAdvertResponse> getCarAdvert(Long id) {
         return ResponseEntity.ok(carAdvertService.getCarAdvert(id));
     }
@@ -51,10 +54,10 @@ public class CarAdvertsControllerImpl implements CarApi {
      * @return Return list of car adverts (status code 200)
      */
     @Override
+    @PreAuthorizeCarAdverts
     public ResponseEntity<List<CarAdvertResponse>> getCarAdvertsPaged(String sortby, Integer limit, Integer offset) {
         return ResponseEntity.ok(carAdvertService.getCarAdvertsPaged(sortby, limit, offset));
     }
-
 
     /**
      * POST /car/adverts : add car advert
@@ -65,10 +68,10 @@ public class CarAdvertsControllerImpl implements CarApi {
      * or Validation failed (status code 422)
      */
     @Override
+    @PreAuthorizeCarAdverts
     public ResponseEntity<CarAdvertResponse> addCarAdvert(CarAdvertRequest carAdvertRequest) {
         return new ResponseEntity<>(carAdvertService.addCarAdvert(carAdvertRequest), HttpStatus.CREATED);
     }
-
 
     /**
      * PUT /car/adverts/:id : update car advert
@@ -81,6 +84,7 @@ public class CarAdvertsControllerImpl implements CarApi {
      * or Validation failed (status code 422)
      */
     @Override
+    @PreAuthorizeCarAdverts
     public ResponseEntity<CarAdvertResponse> updateCarAdvert(Long id, CarAdvertRequest carAdvertRequest) {
         return ResponseEntity.ok(carAdvertService.updateCarAdvert(id, carAdvertRequest));
     }
@@ -93,10 +97,9 @@ public class CarAdvertsControllerImpl implements CarApi {
      * or This is returned if a car advert with given id is not found (status code 404)
      */
     @Override
+    @PreAuthorizeCarAdverts
     public ResponseEntity<Void> deleteCarAdvert(Long id) {
         carAdvertService.deleteCarAdvert(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
 }

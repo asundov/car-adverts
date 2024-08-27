@@ -57,7 +57,7 @@ public class CarAdvertValidator {
 
         if (!errorMessages.isEmpty()) {
             log.error("Validation failed!");
-            throw new CarAdvertsValidationException(String.join("; ", errorMessages));
+            throw new CarAdvertsValidationException(errorMessages);
         }
     }
 

@@ -22,7 +22,6 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Log4j2
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
     private final JwtService jwtService;
     private final CarAdvertsUserDetailService carAdvertsUserDetailService;
 
@@ -71,9 +70,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     new WebAuthenticationDetailsSource().buildDetails(request)
             );
             SecurityContextHolder.getContext().setAuthentication(authToken);
-
         }
-
         filterChain.doFilter(request, response);
     }
 }

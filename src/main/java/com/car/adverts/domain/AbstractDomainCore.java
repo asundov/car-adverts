@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 //@EntityListeners(AbstractDomainCoreListener.class)
 public abstract class AbstractDomainCore implements Serializable {
 
-
     private Long id;
 
     private Integer active;
@@ -30,5 +29,4 @@ public abstract class AbstractDomainCore implements Serializable {
     private Long modifiedBy;
 
     private LocalDateTime modifiedDate;
-
 }

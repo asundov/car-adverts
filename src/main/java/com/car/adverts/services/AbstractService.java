@@ -29,7 +29,5 @@ public abstract class AbstractService {
     protected HttpServletResponse getResponse() {
         return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
     }
-
-
 }
 

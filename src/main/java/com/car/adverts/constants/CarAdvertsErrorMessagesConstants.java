@@ -13,13 +13,13 @@ public class CarAdvertsErrorMessagesConstants {
     public static final String NOT_VALID_SORT_INPUT_ERROR = "Not valid sort input! Remove leftover comma's!";
     public static final String UNAUTHORIZED_ACCESS = "Unauthorized access!";
     public static final String FIND_USER_ERROR = "User not found!";
+    public static final String FIND_USER_LIST_ERROR = "Users list not found!";
     public static final String FIND_USER_SESSION_ERROR = "User session not found!";
     public static final String USER_SESSION_EXPIRED_ERROR = "User session expired!";
     public static final String CAR_ADVERT_NOT_FOUND_ERROR = "Car advert not found!";
     public static final String UPDATE_FAILED_ERROR = "Update failed! Id: ";
     public static final String DELETE_FAILED_ERROR = "Deletion failed! Id: ";
-
     public static final String ADD_FAILED_ERROR = "Adding failed! Id is null.";
-
-
+    public static final String GENERATE_TOKEN_ERROR = "Unexpected error during token generation.";
+    public static final String USERNAME_NULL_ERROR = "Username cannot be null or empty";
 }

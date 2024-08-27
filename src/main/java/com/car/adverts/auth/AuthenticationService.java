@@ -28,7 +28,6 @@ public class AuthenticationService extends AbstractService {
     private final Environment env;
     private final UserService userService;
 
-
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         CarAdvertsAuthUser authUser = userService.loginPlainUser(request.getUsername());
         return authenticateMe(authUser);
@@ -40,17 +39,13 @@ public class AuthenticationService extends AbstractService {
                 new UsernamePasswordAuthenticationToken(
                         authUser, null, authUser.getAuthorities());
 
-        System.out.println("shrek i fiona " + usernamePasswordAuthenticationToken);
-        System.out.println("shrek i fiona " + authUser);
-
         SecurityContextHolder.getContext()
                 .setAuthentication(usernamePasswordAuthenticationToken);
 
-        System.out.println(SecurityContextHolder.getContext().getAuthentication());
-
         log.info("User: {} logged at time: {}, token: {} ", authUser.getUsername(), authUser.getJwtToken().getCreated(), authUser.getJwtToken().getToken());
 
-        List<String> assignedFunctions = userService.getAllUniqueRolesByUser();
+        List<String> uniqueRolesByUser = userService.getAllUniqueRolesByUser();
+        log.info("User roles: " + uniqueRolesByUser);
 
         return AuthenticationResponse.builder()
                 .userId(authUser.getUserId())
@@ -61,13 +56,12 @@ public class AuthenticationService extends AbstractService {
                 .lastName(authUser.getLastname())
                 .refreshToken(authUser.getRefreshToken().getToken())
                 .pin(authUser.getPin())
-                .roles(assignedFunctions)
+                .roles(uniqueRolesByUser)
                 .build();
     }
 
     public TokenRefreshResponse refreshtoken(TokenRefreshRequest request) {
         String token = request.getRefreshToken();
-
         CarAdvertsAuthUser authUser = userService.fetchByRefreshToken(token);
 
         return TokenRefreshResponse.builder()
@@ -77,6 +71,7 @@ public class AuthenticationService extends AbstractService {
     }
 
     public List<AuthenticationUser> getUsers() {
+        log.info("Getting all active users...");
         if (!"prod".equals(env.getProperty("environment"))) {
             List<User> users = userRepository.findAllActiveUsers();
             return users
@@ -89,8 +84,7 @@ public class AuthenticationService extends AbstractService {
                                     .build())
                     .collect(Collectors.toList());
         }
-        throw new CarAdvertsNotFoundException();
-
+        throw new CarAdvertsNotFoundException(CarAdvertsErrorMessagesConstants.FIND_USER_LIST_ERROR);
     }
 
     public void logout() {

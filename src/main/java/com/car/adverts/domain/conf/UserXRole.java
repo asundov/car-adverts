@@ -13,8 +13,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class UserXRole extends AbstractDomainCore {
-
-
+    
     private UserRole userRole;
 
     private User user;

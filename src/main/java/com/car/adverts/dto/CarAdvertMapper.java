@@ -16,7 +16,7 @@ public class CarAdvertMapper {
                 .price((Integer) row.get("price"))
                 .isNew((Boolean) row.get("is_new"))
                 .mileage((Integer) row.get("mileage"))
-                .firstRegistration(((Date) row.get("first_registration")).toLocalDate())
+                .firstRegistration(row.get("first_registration") != null ? ((Date) row.get("first_registration")).toLocalDate() : null)
                 .build();
     }
 }

@@ -1,10 +1,13 @@
 package com.car.adverts.auth;
 
+import com.car.adverts.config.exception.TokenRefreshException;
+import com.car.adverts.constants.CarAdvertsErrorMessagesConstants;
 import com.car.adverts.model.TokenData;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -21,13 +24,11 @@ import java.util.function.Function;
 
 
 @Service
+@Log4j2
 public class JwtService {
 
     private static final String SECRET_KEY = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
-
     private static final Long REFRESH_TOKEN_VALID_TIME = 1000 * 60 * 50L;
-    public static final Integer REFRESH_TOKEN_VALID_TIME_SECONDS = 300;
-
     private static final Long JWT_VALID_TIME = 1000 * 60 * 500L;
     private static final String HASH_ALGORITHM = "SHA-256";
     private static MessageDigest digest = null;
@@ -91,88 +92,40 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    // refresh token
-
-
-    /**
-     * Gets the token.
-     *
-     * @param wsAuthToken
-     *            the ws auth token
-     * @return the token
-     * @throws IllegalArgumentException
-     *             the illegal argument exception
-     */
-//  public String getRefreshToken(final OssWSAuthToken wsAuthToken) throws IllegalArgumentException {
-//    final String text = wsAuthToken.getUserName() + ":" + wsAuthToken.getPassword() + ":" + new Date().getTime() + ":" + Math.random();
-//    final StringBuilder hexString = new StringBuilder();
-//
-//    final byte[] hash = getMessageDigest().digest(text.getBytes(StandardCharsets.UTF_8));
-//    for (int i = 0; i < hash.length; i++) {
-//      if ((0xff & hash[i]) < 0x10) {
-//        hexString.append("0"
-//                + Integer.toHexString((0xFF & hash[i])));
-//      } else {
-//        hexString.append(Integer.toHexString(0xFF & hash[i]));
-//      }
-//    }
-//    return hexString.toString();
-//  }
-
-
     /**
      * Gets the refresh token.
      *
      * @param username username
      * @return the token
-     * @throws IllegalArgumentException the illegal argument exception
      */
-    public TokenData getRefreshToken(final String username) throws IllegalArgumentException {
-        final String text = username + ":" + new Date().getTime() + ":" + Math.random();
-        final StringBuilder hexString = new StringBuilder();
-
-        final byte[] hash = getMessageDigest().digest(text.getBytes(StandardCharsets.UTF_8));
-        for (byte b : hash) {
-            if ((0xff & b) < 0x10) {
-                hexString.append("0").append(Integer.toHexString((0xFF & b)));
-            } else {
-                hexString.append(Integer.toHexString(0xFF & b));
-            }
+    public TokenData getRefreshToken(final String username) {
+        if (username == null || username.trim().isEmpty()) {
+            log.error("Invalid username provided for token generation.");
+            throw new TokenRefreshException(CarAdvertsErrorMessagesConstants.USERNAME_NULL_ERROR);
         }
-        LocalDateTime now = LocalDateTime.now();
-        TokenData td = TokenData.builder()
-                .token(hexString.toString())
-                .created(LocalDateTime.now())
-                .expiresAt(now.plus(Duration.ofMillis(REFRESH_TOKEN_VALID_TIME))
-                )
-                .build();
-        return td;
+        try {
+            final String text = username + ":" + new Date().getTime() + ":" + Math.random();
+            final StringBuilder hexString = new StringBuilder();
+            final byte[] hash = getMessageDigest().digest(text.getBytes(StandardCharsets.UTF_8));
+
+            for (byte b : hash) {
+                if ((0xff & b) < 0x10) {
+                    hexString.append("0").append(Integer.toHexString((0xFF & b)));
+                } else {
+                    hexString.append(Integer.toHexString(0xFF & b));
+                }
+            }
+            LocalDateTime now = LocalDateTime.now();
+            return TokenData.builder()
+                    .token(hexString.toString())
+                    .created(now)
+                    .expiresAt(now.plus(Duration.ofMillis(REFRESH_TOKEN_VALID_TIME)))
+                    .build();
+        } catch (Exception e) {
+            log.error("An unexpected error occurred during token generation: " + e.getMessage());
+            throw new TokenRefreshException(CarAdvertsErrorMessagesConstants.GENERATE_TOKEN_ERROR);
+        }
     }
-
-
-//  /**
-//   * Gets the refresh token.
-//   *
-//   * @param username
-//   *            the username
-//   * @return the token
-//   * @throws IllegalArgumentException
-//   *             the illegal argument exception*/
-//  public String getToken(final String username) throws IllegalArgumentException {
-//    final String text = username + ":" + new Date().getTime() + ":" + Math.random();
-//    final StringBuilder hexString = new StringBuilder();
-//
-//    final byte[] hash = getMessageDigest().digest(text.getBytes(StandardCharsets.UTF_8));
-//    for (int i = 0; i < hash.length; i++) {
-//      if ((0xff & hash[i]) < 0x10) {
-//        hexString.append("0"
-//                + Integer.toHexString((0xFF & hash[i])));
-//      } else {
-//        hexString.append(Integer.toHexString(0xFF & hash[i]));
-//      }
-//    }
-//    return hexString.toString();
-//  }
 
     /**
      * Gets the message digest.
@@ -186,7 +139,7 @@ public class JwtService {
             try {
                 digest = MessageDigest.getInstance(HASH_ALGORITHM);
             } catch (final NoSuchAlgorithmException e) {
-                throw new IllegalArgumentException(e);
+                throw new TokenRefreshException(e.getMessage());
             }
             return digest;
         }

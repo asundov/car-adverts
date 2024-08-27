@@ -20,7 +20,6 @@ import java.util.Arrays;
 public class SecurityConfig {
 
     private final WebConfigProperties webConfigProperties;
-
     private final JwtAuthenticationFilter jwtAuthFilter;
 
     @Bean

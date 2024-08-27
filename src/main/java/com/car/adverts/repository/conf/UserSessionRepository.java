@@ -38,7 +38,6 @@ public class UserSessionRepository {
                                 dateTimeStr = dateTimeStr.substring(0, dotIndex);
                             }
                         }
-
                         return UserSession.builder()
                                 .id(rs.getLong("session_id"))
                                 .user(User.builder()
@@ -76,14 +75,6 @@ public class UserSessionRepository {
         return affectedRowsCount;
     }
 
-    private String formatSql(String sql, Object[] params) {
-        for (Object param : params) {
-            String value = (param instanceof String) ? "'" + param + "'" : param.toString();
-            sql = sql.replaceFirst("\\?", value);
-        }
-        return sql;
-    }
-
     public void updateRefreshToken(TokenData newRefreshToken, Long id) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -98,7 +89,6 @@ public class UserSessionRepository {
                 formattedNow,
                 id,
                 id);
-
         if (rowsUpdated == 0) {
             throw new CarAdvertsException("User session not found or update failed!");
         }
@@ -113,7 +103,6 @@ public class UserSessionRepository {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedLogout = LocalDateTime.now().format(formatter);
-
 
         Object[] params = new Object[]{
                 formattedLogout,

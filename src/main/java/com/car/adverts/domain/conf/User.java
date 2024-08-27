@@ -25,6 +25,6 @@ public class User extends AbstractDomainCore {
     private Boolean admin;
 
     private List<UserXRole> userXRoles;
-    private Integer status;
 
+    private Integer status;
 }

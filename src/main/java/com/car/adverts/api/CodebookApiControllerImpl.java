@@ -1,6 +1,7 @@
 package com.car.adverts.api;
 
 
+import com.car.adverts.config.annotations.PreAuthorizeCarAdverts;
 import com.car.adverts.services.CodebookService;
 import hr.ericsson.eb.car.adverts.api.CodebooksApi;
 import hr.ericsson.eb.car.adverts.api.model.CodebookSimpleResponse;
@@ -25,6 +26,7 @@ public class CodebookApiControllerImpl implements CodebooksApi {
      * @return Return list of fuel types (status code 200)
      */
     @Override
+    @PreAuthorizeCarAdverts
     public ResponseEntity<List<CodebookSimpleResponse>> getFuelTypes() {
         return ResponseEntity.ok(codebookService.getSimpleCodebook("fuel_type"));
     }

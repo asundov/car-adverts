@@ -2,6 +2,7 @@ package com.car.adverts.services;
 
 import com.car.adverts.auth.JwtService;
 import com.car.adverts.config.exception.CarAdvertsException;
+import com.car.adverts.config.exception.TokenRefreshException;
 import com.car.adverts.constants.CarAdvertsErrorMessagesConstants;
 import com.car.adverts.domain.conf.User;
 import com.car.adverts.domain.conf.UserSession;
@@ -91,7 +92,7 @@ public class UserService extends AbstractService {
             authUser.setRefreshToken(newRefreshToken);
             return authUser;
         } else
-            throw new RuntimeException(CarAdvertsErrorMessagesConstants.USER_SESSION_EXPIRED_ERROR);
+            throw new TokenRefreshException(CarAdvertsErrorMessagesConstants.USER_SESSION_EXPIRED_ERROR);
     }
 
     public void logoutUser(String username) {

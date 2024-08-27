@@ -39,7 +39,6 @@ public class AuthenticationControllerImpl implements AuthenticationApi {
         return ResponseEntity.ok(authenticationService.refreshtoken(tokenRefreshRequest));
     }
 
-
     /**
      * GET /authentication/auth/get-users : get login users for test purposes
      *

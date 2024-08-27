@@ -13,27 +13,20 @@ public class CarAdvertsValidationException extends RuntimeException {
         super();
     }
 
-    public CarAdvertsValidationException(String message) {
-        super(message);
-    }
-
-    public CarAdvertsValidationException(String message, List<String> validationMessages) {
-
-        super(message);
-        this.validationMessages = validationMessages;
-
-    }
-
-    public CarAdvertsValidationException(String message, String validationMessage) {
-
-        super(message);
-        this.validationMessages = List.of(validationMessage);
-
-    }
-
     public CarAdvertsValidationException(Exception e) {
         super(e);
     }
 
+    public CarAdvertsValidationException(String message) {
+        super(message);
+    }
 
+    public CarAdvertsValidationException(List<String> validationMessages) {
+        this.validationMessages = validationMessages;
+    }
+
+    public CarAdvertsValidationException(String message, List<String> validationMessages) {
+        super(message);
+        this.validationMessages = validationMessages;
+    }
 }

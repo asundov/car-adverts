@@ -38,9 +38,6 @@ public class CarAdvertRepository {
         log.info("Sorting by: {}", sortBy);
 
         String findAllEntitiesQuery = String.format(FIND_ALL_CAR_ADVERTS_PAGED, sortBy, size, page * size);
-//        MapSqlParameterSource params = new MapSqlParameterSource()
-//                .addValue("limit", size)
-//                .addValue("offset", page * size);
 
         return jdbcTemplate.queryForList(findAllEntitiesQuery);
     }
@@ -99,7 +96,6 @@ public class CarAdvertRepository {
 
         return keyHolder.getKey() != null ? keyHolder.getKey().longValue() : null;
     }
-
 
     public void updateCarAdvert(Long id, CarAdvertRequest carAdvertRequest) {
 

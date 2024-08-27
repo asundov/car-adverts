@@ -27,5 +27,4 @@ public class CarAdvert extends AbstractDomainCore {
     private Integer mileage;
 
     private LocalDate firstRegistration;
-
 }

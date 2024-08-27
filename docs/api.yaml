@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   version: '1.0.0'
-  title: 'car-adverts codebook'
+  title: 'car-adverts'
   description: Some description
 paths:
   #################
@@ -39,28 +39,3 @@ paths:
 
   /codebooks/fuel-types:
     $ref: './codebooks.yaml#/paths/fuel-types'
-
-
-components:
-  schemas:
-    ErrorResponse:
-      type: object
-      description: Standard error response
-      properties:
-        type:
-          type: string
-          description: identifier that categorizes the error
-        title:
-          type: string
-          description: a brief, human-readable message about the error
-        status:
-          type: integer
-          format: int32
-          description: the HTTP response code (optional)
-          example: 400
-        detail:
-          type: string
-          description: a human-readable explanation of the error
-        instance:
-          type: string
-          description: identifies the specific occurrence of the error
