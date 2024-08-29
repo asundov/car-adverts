@@ -1,0 +1,39 @@
+server:
+  port: 8024
+  servlet:
+    context-path: /auth
+
+spring:
+  application:
+    name: car-adverts-auth
+  #database
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: none
+        format_sql: true
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:1000/car-adverts
+    username: car-adverts
+    password: caradverts
+  sql.init.mode: always
+  jackson:
+    default-property-inclusion: NON_NULL
+
+  servlet:
+    multipart:
+      max-file-size: 512MB
+      max-request-size: 512MB
+environment: dev
+
+web:
+  cors:
+    allow-credentials: true
+    allowed-origins: http://localhost:4200
+    allowed-methods: GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD
+    max-age: 3600
+    allowed-headers: Requester-Type, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization
+    exposed-headers: X-Get-Header
+

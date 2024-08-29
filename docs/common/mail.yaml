@@ -1,0 +1,30 @@
+paths:
+  send-confirm-mail:
+    post:
+      tags:
+        - external
+      operationId: sendConfirmMail
+      summary: send confirm mail
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendConfirmMailRequest'
+      responses:
+        200:
+          description: successful login
+
+components:
+  schemas:
+    SendConfirmMailRequest:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        mail:
+          type: string
+        notificationTypeId:
+          type: integer
+          format: int64
+

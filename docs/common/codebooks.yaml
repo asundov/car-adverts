@@ -1,0 +1,542 @@
+openapi: 3.0.3
+info:
+  version: '1.0.0'
+  title: 'eVisitor codebook'
+  description: 'Api for e-services to request codebooks from eVisitor'
+paths:
+  #################
+  # Countries
+  #################
+  countries:
+    get:
+      tags:
+        - codebooks
+      operationId: countries
+      summary: Retrieve countries
+      parameters:
+        - in: query
+          name: searchTerm
+          schema:
+            type: string
+      responses:
+        200:
+          description: Return list of countries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CodebookSimpleResponse'
+
+  #################
+  # Languages
+  #################
+
+  languages:
+    get:
+      tags:
+        - codebooks
+      operationId: languages
+      summary: Retrieve languages
+      responses:
+        200:
+          description: Return list of languages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CodebookSimpleResponse'
+
+  #################
+  # Distance
+  #################
+
+  get-distance:
+    post:
+      tags:
+        - codebooks
+      operationId: getDistance
+      summary: Retrieve distance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: './common.yaml#/components/schemas/CommonGetRequest'
+      responses:
+        200:
+          description: Return distance
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CodebookSimpleResponse'
+
+  distances:
+    get:
+      tags:
+        - codebooks
+      operationId: distances
+      summary: Retrieve distances
+      responses:
+        200:
+          description: Return list of distances
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CodebookSimpleResponse'
+
+  #################
+  # Distance Type
+  #################
+
+  distance-types:
+    get:
+      tags:
+        - codebooks
+      operationId: distanceTypes
+      summary: Retrieve distance types
+      responses:
+        200:
+          description: Return list of distances
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CodebookSimpleResponse'
+
+  #################
+  # Document T Types
+  #################
+
+  document-t-types:
+    get:
+      tags:
+        - codebooks
+      operationId: documentTTypes
+      summary: Retrieve document t types
+      responses:
+        200:
+          description: Return list of document_t_types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CodebookSimpleResponse'
+
+  # Country cluster
+  #################
+
+  country-clusters:
+    post:
+      tags:
+        - country-cluster
+      operationId: country-clusters
+      summary: Retrieve country-clusters
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: './../common/common.yaml#/components/schemas/CommonGetListRequest'
+      responses:
+        200:
+          description: Return list of country-clusters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountryClustersResponse'
+
+  #################
+  # County
+  #################
+
+  counties:
+    get:
+      tags:
+        - codebooks
+      operationId: counties
+      parameters:
+        - in: query
+          name: searchTerm
+          schema:
+            type: string
+      summary: Retrieve counties
+      responses:
+        200:
+          description: Return list of counties
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CodebookSimpleResponse'
+
+  #################
+  # County Cluster
+  #################
+
+  county-clusters:
+    post:
+      tags:
+        - codebooks
+      operationId: countyClusters
+      summary: Retrieve county clusters
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: './../common/common.yaml#/components/schemas/CommonGetListRequest'
+      responses:
+        200:
+          description: Return list of county clusters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountyClustersResponse'
+
+  #################
+  # Settlement
+  #################
+
+  settlements:
+    get:
+      tags:
+        - codebooks
+      operationId: settlements
+      summary: Retrieve settlements
+      parameters:
+        - in: query
+          name: searchTerm
+          schema:
+            type: string
+        - in: query
+          name: cityMunicipalityId
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Return list of settlements
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CodebookSimpleResponse'
+
+  #################
+  # City Municipality
+  #################
+
+  cities-municipalities:
+    get:
+      tags:
+        - codebooks
+      operationId: citiesMunicipalities
+      summary: Retrieve cities/municipalities
+      parameters:
+        - in: query
+          name: searchTerm
+          schema:
+            type: string
+        - in: query
+          name: countyId
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Return list of cities/municipalities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CodebookSimpleResponse'
+
+  #################
+  # Tourist board types
+  #################
+
+  tourist-board-types:
+    post:
+      tags:
+        - codebooks
+      operationId: touristBoardTypes
+      summary: Retrieve tourist board types
+      responses:
+        200:
+          description: Return list of tourist board types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CodebookSimpleResponse'
+
+  #################
+  # Legal entity type
+  #################
+  legal-entity-types:
+    get:
+      tags:
+        - codebooks
+      operationId: legalEntityTypes
+      summary: Retrieve legal entity types
+      responses:
+        200:
+          description: Return list of legal entity types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CodebookSimpleResponse'
+
+components:
+  schemas:
+    CountriesResponse:
+      type: object
+      properties:
+        pagingInfo:
+          $ref: './common.yaml#/components/schemas/PagingInfo'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CountryResponse'
+        totalCount:
+          type: integer
+
+    CountryResponse:
+      title: CountryResponse
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        code:
+          type: string
+        code2:
+          type: string
+        translation:
+          type: string
+
+    CountriesRequest:
+      title: GetCountriesRequest
+      type: object
+      allOf:
+        - $ref: './common.yaml#/components/schemas/Paging'
+      properties:
+        searchTerm:
+          type: string
+
+
+    LanguagesResponse:
+      type: object
+      properties:
+        pagingInfo:
+          $ref: './common.yaml#/components/schemas/PagingInfo'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/LanguageResponse'
+        totalCount:
+          type: integer
+
+    LanguageResponse:
+      title: LanguageResponse
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        code:
+          type: string
+
+    LanguagesRequest:
+      title: GetLanguagesRequest
+      type: object
+      allOf:
+        - $ref: './common.yaml#/components/schemas/Paging'
+      properties:
+        searchTerm:
+          type: string
+
+    CodebookSimpleResponse:
+      title: CodebookSimpleResponse
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        code:
+          type: string
+        name:
+          type: string
+    DistanceTypesResponse:
+      type: object
+      properties:
+        pagingInfo:
+          $ref: './common.yaml#/components/schemas/PagingInfo'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/DistanceTypeResponse'
+        totalCount:
+          type: integer
+
+    DistanceTypeResponse:
+      title: DistanceTypeResponse
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        code:
+          type: string
+        translation:
+          type: string
+        sequence:
+          type: integer
+          format: int64
+
+    DistancesResponse:
+      type: object
+      properties:
+        pagingInfo:
+          $ref: './common.yaml#/components/schemas/PagingInfo'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/DistanceResponse'
+        totalCount:
+          type: integer
+
+    DistanceResponse:
+      title: DistanceResponse
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        translation:
+          type: string
+        status:
+          type: integer
+          format: int32
+
+    CountryClustersResponse:
+      type: object
+      properties:
+        pagingInfo:
+          $ref: './common.yaml#/components/schemas/PagingInfo'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CountryClusterResponse'
+        totalCount:
+          type: integer
+
+    CountryClusterResponse:
+      title: CountryClusterResponse
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        status:
+          type: integer
+          format: int32
+
+    CountiesResponse:
+      type: object
+      properties:
+        pagingInfo:
+          $ref: './common.yaml#/components/schemas/PagingInfo'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CountyResponse'
+        totalCount:
+          type: integer
+
+    CountyResponse:
+      title: CountyResponse
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        status:
+          type: integer
+          format: int32
+
+    CountyClustersResponse:
+      type: object
+      properties:
+        pagingInfo:
+          $ref: './common.yaml#/components/schemas/PagingInfo'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CountyClusterResponse'
+        totalCount:
+          type: integer
+
+    CountyClusterResponse:
+      title: CountyClusterResponse
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        status:
+          type: integer
+          format: int32
+
+    CitiesMunicipalitiesResponse:
+      type: object
+      properties:
+        pagingInfo:
+          $ref: './common.yaml#/components/schemas/PagingInfo'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CityMunicipalityResponse'
+        totalCount:
+          type: integer
+
+    CityMunicipalityResponse:
+      title: CityMunicipalityResponse
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        status:
+          type: integer
+          format: int32
+

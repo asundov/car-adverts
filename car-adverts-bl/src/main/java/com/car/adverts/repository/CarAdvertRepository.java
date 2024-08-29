@@ -1,10 +1,10 @@
 package com.car.adverts.repository;
 
-import com.car.adverts.config.exception.CarAdvertsException;
-import com.car.adverts.config.exception.CarAdvertsNotFoundException;
-import com.car.adverts.constants.CarAdvertsConstants;
-import com.car.adverts.constants.CarAdvertsErrorMessagesConstants;
-import hr.ericsson.eb.car.adverts.api.model.CarAdvertRequest;
+import com.car.adverts.common.config.exception.CarAdvertsException;
+import com.car.adverts.common.config.exception.CarAdvertsNotFoundException;
+import com.car.adverts.common.constants.CarAdvertsConstants;
+import com.car.adverts.common.constants.CarAdvertsErrorMessagesConstants;
+import hr.ericsson.eb.car.adverts.bl.api.model.CarAdvertRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.EmptyResultDataAccessException;

@@ -1,0 +1,22 @@
+ext {
+    commonDependencies = [
+            commonsLang            : 'org.apache.commons:commons-lang3:3.14.0',
+            commonsIo              : 'commons-io:commons-io:2.15.1',
+            jacksonDatabindNullable: 'org.openapitools:jackson-databind-nullable:0.2.6',
+            jacksonDataType        : 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.0',
+            springDoc              : 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0',
+            lombok                 : 'org.projectlombok:lombok:1.18.30',
+            xmlBind                : 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.1',
+            log4j2Api              : 'org.apache.logging.log4j:log4j-api:2.23.1',
+            log4j2Core             : 'org.apache.logging.log4j:log4j-core:2.23.1',
+            s3                     : 'com.amazonaws:aws-java-sdk-s3:1.12.647',
+            jwtImpl                : 'io.jsonwebtoken:jjwt-impl:0.12.5',
+            jwtJackson             : 'io.jsonwebtoken:jjwt-jackson:0.12.5',
+            junit                  : 'org.junit.jupiter:junit-jupiter:5.10.2',
+            bouncyBcpkix           : 'org.bouncycastle:bcprov-jdk18on:1.77',
+            jaxbXjc                : 'org.glassfish.jaxb:jaxb-xjc:4.0.1',
+            jaxbRuntime            : 'org.glassfish.jaxb:jaxb-runtime:4.0.1',
+            springWsCore           : 'org.springframework.ws:spring-ws-core:4.0.10',
+            jasperReports          : 'net.sf.jasperreports:jasperreports:6.21.2',
+    ]
+}

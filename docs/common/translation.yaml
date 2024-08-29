@@ -1,0 +1,20 @@
+components:
+  schemas:
+    Translations:
+      title: Translations
+      type: object
+      properties:
+        hr:
+          type: string
+        en:
+          type: string
+        de:
+          type: string
+        it:
+          type: string
+        si:
+          type: string
+        cz:
+          type: string
+        ru:
+          type: string

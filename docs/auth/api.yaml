@@ -19,23 +19,3 @@ paths:
 
   /authentication/auth/logout:
     $ref: './authentication.yaml#/paths/logout'
-
-  #################
-  # CarAdverts
-  #################
-
-  /car/adverts:
-    $ref: './car-adverts.yaml#/paths/car-adverts'
-
-  /car/adverts-paged:
-    $ref: './car-adverts.yaml#/paths/car-adverts-paged'
-
-  /car/adverts/{id}:
-    $ref: './car-adverts.yaml#/paths/car-advert'
-
-  #################
-  # Codebooks
-  #################
-
-  /codebooks/fuel-types:
-    $ref: './codebooks.yaml#/paths/fuel-types'

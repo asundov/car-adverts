@@ -1,0 +1,6 @@
+rootProject.name = 'CarAdverts'
+include 'car-adverts-auth',
+        'car-adverts-bl',
+        'car-adverts-codebook',
+        'car-adverts-common'
+

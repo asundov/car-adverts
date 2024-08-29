@@ -1,0 +1,18 @@
+openapi: 3.0.3
+info:
+  version: '1.0.0'
+  title: 'e-visitor common'
+  description: Some description
+paths: { }
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      description: Standard error response
+      properties:
+        validation_errors:
+          type: array
+          items:
+            type: string
+        title:
+          type: string

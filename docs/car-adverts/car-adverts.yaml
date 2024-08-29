@@ -44,7 +44,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: './../common/api.yaml#/components/schemas/ErrorResponse'
 
   car-adverts-paged:
     get:
@@ -137,7 +137,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: './../common/api.yaml#/components/schemas/ErrorResponse'
     delete:
       tags:
         - car-adverts
@@ -187,16 +187,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/CarAdvertRequest'
 
-    ErrorResponse:
-      type: object
-      description: Standard error response
-      properties:
-        validation_errors:
-          type: array
-          items:
-            type: string
-        title:
-          type: string
 
 
 
