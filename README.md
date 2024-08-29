@@ -114,7 +114,8 @@ Direct edit of the script:
    - Password: caradverts
    - Alternative to inserting host and database name, you can insert URL: jdbc:postgresql://localhost:1000/car-adverts
    
-     ![Database Schema](images/DB_host.png)
+    
+![img_2.png](img_2.png)
 
 All of these data can be found inside .database/docker-compose.yaml file.
 
