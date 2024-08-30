@@ -1,18 +1,21 @@
 package com.car.adverts.admin.repository;
 
 import com.car.adverts.CarAdvertsApplication;
-import com.car.adverts.admin.api.AuthApiControllerImplTest;
 import com.car.adverts.domain.conf.UserSession;
 import com.car.adverts.model.CarAdvertsAuthUser;
 import com.car.adverts.model.TokenData;
 import com.car.adverts.repository.conf.UserSessionRepository;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,7 +28,19 @@ public class UserSessionRepositoryTest {
     @Autowired
     private UserSessionRepository userSessionRepository;
 
-    private static final Logger log = LogManager.getLogger(AuthApiControllerImplTest.class);
+    @BeforeEach
+    public void setup() {
+
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("admin"));
+        CarAdvertsAuthUser authUser = new CarAdvertsAuthUser("johndoe", "", authorities);
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                new UsernamePasswordAuthenticationToken(
+                        authUser, null, authUser.getAuthorities());
+
+        SecurityContextHolder.getContext()
+                .setAuthentication(usernamePasswordAuthenticationToken);
+    }
 
     @Test
 //    @Disabled

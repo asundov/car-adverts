@@ -11,13 +11,18 @@ import com.car.adverts.repository.conf.UserSessionRepository;
 import hr.ericsson.eb.car.adverts.api.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,12 +40,24 @@ public class AuthApiControllerImplTest {
     private UserSessionRepository userSessionRepository;
 
     private static final Logger log = LogManager.getLogger(AuthApiControllerImplTest.class);
+    @BeforeEach
+    public void setup() {
 
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("admin"));
+        CarAdvertsAuthUser authUser = new CarAdvertsAuthUser("johndoe", "", authorities);
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                new UsernamePasswordAuthenticationToken(
+                        authUser, null, authUser.getAuthorities());
+
+        SecurityContextHolder.getContext()
+                .setAuthentication(usernamePasswordAuthenticationToken);
+    }
     @Test
 //    @Disabled
     public void testAuthenticate() {
         User user = userRepository.findByUsername("johndoe").orElseThrow();
-        AuthenticationRequest authenticationRequest = AuthenticationRequest.builder().username(user.getUsername()).password("***").build();
+        AuthenticationRequest authenticationRequest = AuthenticationRequest.builder().username(user.getUsername()).build();
         ResponseEntity<AuthenticationResponse> responseEntity = authApiControllerImpl.authenticate(authenticationRequest);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
@@ -57,7 +74,7 @@ public class AuthApiControllerImplTest {
 //    @Disabled
     public void testRefreshToken() {
         User user = userRepository.findByUsername("johndoe").orElseThrow();
-        AuthenticationRequest authenticationRequest = AuthenticationRequest.builder().username(user.getUsername()).password("***").build();
+        AuthenticationRequest authenticationRequest = AuthenticationRequest.builder().username(user.getUsername()).build();
         ResponseEntity<AuthenticationResponse> authenticationResponse = authApiControllerImpl.authenticate(authenticationRequest);
         assertEquals(HttpStatus.OK, authenticationResponse.getStatusCode());
         assertNotNull(authenticationResponse.getBody());
@@ -77,7 +94,7 @@ public class AuthApiControllerImplTest {
 //    @Disabled
     public void testLogout() {
         User user = userRepository.findByUsername("johndoe").orElseThrow();
-        AuthenticationRequest authenticationRequest = AuthenticationRequest.builder().username(user.getUsername()).password("***").build();
+        AuthenticationRequest authenticationRequest = AuthenticationRequest.builder().username(user.getUsername()).build();
         ResponseEntity<AuthenticationResponse> authenticationResponse = authApiControllerImpl.authenticate(authenticationRequest);
         assertEquals(HttpStatus.OK, authenticationResponse.getStatusCode());
         assertNotNull(authenticationResponse.getBody());
