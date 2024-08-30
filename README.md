@@ -31,7 +31,7 @@ Ensure you have the following software installed on your system:
 1. Clone the repository:
    ```bash
    git clone https://github.com/asundov/car-adverts.git
-   cd CarAdverts
+   cd car-adverts
 
 2. Install project dependencies using Gradle:
     ```bash
@@ -192,12 +192,23 @@ When testing api calls there's Authorize button at top of api list. When clickin
 
 Depending on application, Swagger links are different:
 1. Monolithic application:
-   - http://localhost:8026/codebook/swagger-ui/index.html#/
+   - http://localhost:8080/swagger-ui/index.html#/
 
 2. Microservices structure:
     - http://localhost:8024/auth/swagger-ui/index.html#/ - authentication APIs
     - http://localhost:8025/bl/swagger-ui/index.html#/ - car adverts APIs
     - http://localhost:8026/codebook/swagger-ui/index.html#/ - codebook APIs
+	
+#### Sorting
+When testing sorting filter, values for the filter should be actual column names: 
+			["id",
+            "title",
+            "fuel_type",
+            "is_new",
+            "price",
+            "mileage",
+            "first_registration"].
+Any other name should throw error as invalid sorting filter.
 
 ## 🎉 Have Fun!
 
