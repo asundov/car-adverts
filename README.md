@@ -11,7 +11,9 @@ Car Adverts is a project designed to manage car advertisements, built with Java 
     - [Opening Tables and Viewing Data](#opening-tables-and-viewing-data)
 4. [Project Versions](#project-versions)
 5. [Running the Project](#running-the-project)
-6. [Have Fun](#have-fun)
+6. [Swagger](#swagger)
+7. [Authentication](#authentication)
+8. [Have Fun](#have-fun)
 
 ## Prerequisites
 
@@ -171,11 +173,39 @@ This project is available in two versions depending on branch being used:
      - all applications in case of microservice structure, 
      - main application in case of monolithic application.
 
+## Authentication
+
+This application has jwt filter setup and it is **required** to be logged into the application to be able to test api calls.
+
+#### Users
+There are several users defined in database but for testing purposes we should use these two:
+1. johndoe - User with admin access to all controllers and methods
+2. janesmith - User with additional restrictions on controller CodebookApiControllerImpl and methods: addCarAdvert, updateCarAdvert and deleteCarAdvert
+
+Authentication methods, apart from logout method, are accessible to everyone. For other methods, authentication must be made.
+
+#### Swagger
+
+When testing api calls there's Authorize button at top of api list. When clicking on it, insert name of one of mentioned users for authentication. This way every future api call will be added with Authorization header.
+
+
+## Swagger
+
+Depending on application, Swagger links are different:
+1. Monolithic application:
+   - http://localhost:8026/codebook/swagger-ui/index.html#/
+
+2. Microservices structure:
+    - http://localhost:8024/auth/swagger-ui/index.html#/ - authentication APIs
+    - http://localhost:8025/bl/swagger-ui/index.html#/ - car adverts APIs
+    - http://localhost:8026/codebook/swagger-ui/index.html#/ - codebook APIs
+
 ## 🎉 Have Fun!
 
 
 Even though it's work, it can *also* be fun. Every day is an opportunity to learn something new... or to completely lose your mind over some obscure bug or a piece of documentation that doesn’t exist. 🤯
 
-But hey, that’s the life of a developer! So grab your coffee ☕️(I already got mine) and let's pretend to enjoy every moment of it! 😉
+But hey, that’s the life of a developer! 
+So grab your coffee ☕️(I already got mine) and let's pretend to enjoy every moment of it! 😉
 
-Happy coding! 🚀
+Happy testing! 🚀
