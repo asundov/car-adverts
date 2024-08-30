@@ -1,24 +1,14 @@
-package test.java.com.car.adverts.bl;
+package com.car.adverts.codebook;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class CarAdvertsApplicationTests {
+public class CarAdvertsCodebookApplicationTests {
 
     @Test
     @Disabled
     void contextLoads() {
-    }
-
-    @SpringBootTest
-    static
-    class CarAdvertApplicationTests {
-
-        @Test
-        void contextLoads() {
-        }
-
     }
 }

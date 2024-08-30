@@ -1,13 +1,10 @@
-package test.java.com.car.adverts.common.repository;
+package com.car.adverts.auth.repository;
 
-import com.car.adverts.CarAdvertsApplication;
-import com.car.adverts.admin.api.AuthApiControllerImplTest;
+import com.car.adverts.auth.CarAdvertsAuthApplication;
 import com.car.adverts.common.domain.conf.UserSession;
 import com.car.adverts.common.model.CarAdvertsAuthUser;
 import com.car.adverts.common.model.TokenData;
 import com.car.adverts.common.repository.conf.UserSessionRepository;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,13 +16,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@SpringBootTest(classes = CarAdvertsApplication.class)
+@SpringBootTest(classes = CarAdvertsAuthApplication.class)
 public class UserSessionRepositoryTest {
 
     @Autowired
     private UserSessionRepository userSessionRepository;
-
-    private static final Logger log = LogManager.getLogger(AuthApiControllerImplTest.class);
 
     @Test
 //    @Disabled

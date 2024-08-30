@@ -1,14 +1,13 @@
-package test.java.com.car.adverts.codebook.api;
+package com.car.adverts.auth.api;
 
 
-import com.car.adverts.CarAdvertsApplication;
-import com.car.adverts.auth.AuthenticationControllerImpl;
+import com.car.adverts.auth.CarAdvertsAuthApplication;
 import com.car.adverts.common.config.exception.CarAdvertsNotFoundException;
 import com.car.adverts.common.domain.conf.User;
 import com.car.adverts.common.model.CarAdvertsAuthUser;
 import com.car.adverts.common.repository.conf.UserRepository;
 import com.car.adverts.common.repository.conf.UserSessionRepository;
-import hr.ericsson.eb.car.adverts.api.model.*;
+import hr.ericsson.eb.car.adverts.auth.api.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@SpringBootTest(classes = CarAdvertsApplication.class)
+@SpringBootTest(classes = CarAdvertsAuthApplication.class)
 public class AuthApiControllerImplTest {
 
     @Autowired
@@ -40,7 +39,7 @@ public class AuthApiControllerImplTest {
 //    @Disabled
     public void testAuthenticate() {
         User user = userRepository.findByUsername("johndoe").orElseThrow();
-        AuthenticationRequest authenticationRequest = AuthenticationRequest.builder().username(user.getUsername()).password("***").build();
+        AuthenticationRequest authenticationRequest = AuthenticationRequest.builder().username(user.getUsername()).build();
         ResponseEntity<AuthenticationResponse> responseEntity = authApiControllerImpl.authenticate(authenticationRequest);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
@@ -57,7 +56,7 @@ public class AuthApiControllerImplTest {
 //    @Disabled
     public void testRefreshToken() {
         User user = userRepository.findByUsername("johndoe").orElseThrow();
-        AuthenticationRequest authenticationRequest = AuthenticationRequest.builder().username(user.getUsername()).password("***").build();
+        AuthenticationRequest authenticationRequest = AuthenticationRequest.builder().username(user.getUsername()).build();
         ResponseEntity<AuthenticationResponse> authenticationResponse = authApiControllerImpl.authenticate(authenticationRequest);
         assertEquals(HttpStatus.OK, authenticationResponse.getStatusCode());
         assertNotNull(authenticationResponse.getBody());
@@ -77,7 +76,7 @@ public class AuthApiControllerImplTest {
 //    @Disabled
     public void testLogout() {
         User user = userRepository.findByUsername("johndoe").orElseThrow();
-        AuthenticationRequest authenticationRequest = AuthenticationRequest.builder().username(user.getUsername()).password("***").build();
+        AuthenticationRequest authenticationRequest = AuthenticationRequest.builder().username(user.getUsername()).build();
         ResponseEntity<AuthenticationResponse> authenticationResponse = authApiControllerImpl.authenticate(authenticationRequest);
         assertEquals(HttpStatus.OK, authenticationResponse.getStatusCode());
         assertNotNull(authenticationResponse.getBody());

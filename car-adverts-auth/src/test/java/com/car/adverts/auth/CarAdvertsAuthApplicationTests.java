@@ -1,4 +1,4 @@
-package test.java.com.car.adverts.bl;
+package com.car.adverts.auth;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
