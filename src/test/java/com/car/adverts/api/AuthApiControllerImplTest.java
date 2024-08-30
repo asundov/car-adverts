@@ -1,4 +1,4 @@
-package com.car.adverts.admin.api;
+package com.car.adverts.api;
 
 
 import com.car.adverts.CarAdvertsApplication;
@@ -40,6 +40,7 @@ public class AuthApiControllerImplTest {
     private UserSessionRepository userSessionRepository;
 
     private static final Logger log = LogManager.getLogger(AuthApiControllerImplTest.class);
+
     @BeforeEach
     public void setup() {
 
@@ -53,6 +54,7 @@ public class AuthApiControllerImplTest {
         SecurityContextHolder.getContext()
                 .setAuthentication(usernamePasswordAuthenticationToken);
     }
+
     @Test
 //    @Disabled
     public void testAuthenticate() {

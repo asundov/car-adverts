@@ -1,4 +1,4 @@
-package com.car.adverts.admin;
+package com.car.adverts;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

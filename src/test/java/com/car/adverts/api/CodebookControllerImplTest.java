@@ -1,7 +1,6 @@
-package com.car.adverts.admin.api;
+package com.car.adverts.api;
 
 import com.car.adverts.CarAdvertsApplication;
-import com.car.adverts.api.CodebookApiControllerImpl;
 import com.car.adverts.model.CarAdvertsAuthUser;
 import hr.ericsson.eb.car.adverts.api.model.CodebookSimpleResponse;
 import org.apache.logging.log4j.LogManager;
@@ -29,6 +28,7 @@ public class CodebookControllerImplTest {
     private CodebookApiControllerImpl codebookApiControllerImpl;
 
     private static final Logger log = LogManager.getLogger(AuthApiControllerImplTest.class);
+
     @BeforeEach
     public void setup() {
 
@@ -42,6 +42,7 @@ public class CodebookControllerImplTest {
         SecurityContextHolder.getContext()
                 .setAuthentication(usernamePasswordAuthenticationToken);
     }
+
     @Test
 //    @Disabled
     public void testGetFuelTypes() {

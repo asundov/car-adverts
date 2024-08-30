@@ -1,4 +1,4 @@
-package com.car.adverts.admin.repository;
+package com.car.adverts.repository;
 
 import com.car.adverts.CarAdvertsApplication;
 import com.car.adverts.domain.conf.UserSession;

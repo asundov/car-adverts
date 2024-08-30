@@ -1,10 +1,9 @@
-package com.car.adverts.admin.validators;
+package com.car.adverts.validators;
 
 import com.car.adverts.CarAdvertsApplication;
 import com.car.adverts.config.exception.CarAdvertsValidationException;
 import com.car.adverts.constants.CarAdvertsErrorMessagesConstants;
 import com.car.adverts.model.CarAdvertsAuthUser;
-import com.car.adverts.validators.CarAdvertValidator;
 import hr.ericsson.eb.car.adverts.api.model.CarAdvertRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

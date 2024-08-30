@@ -1,7 +1,6 @@
-package com.car.adverts.admin.api;
+package com.car.adverts.api;
 
 import com.car.adverts.CarAdvertsApplication;
-import com.car.adverts.api.CarAdvertsControllerImpl;
 import com.car.adverts.model.CarAdvertsAuthUser;
 import hr.ericsson.eb.car.adverts.api.model.CarAdvertRequest;
 import hr.ericsson.eb.car.adverts.api.model.CarAdvertResponse;
@@ -48,6 +47,7 @@ public class CarAdvertsControllerImplTest {
         SecurityContextHolder.getContext()
                 .setAuthentication(usernamePasswordAuthenticationToken);
     }
+
     @Test
 //    @Disabled
     public void testGetCarAdverts() {
